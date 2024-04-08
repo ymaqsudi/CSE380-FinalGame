@@ -7,6 +7,7 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import MainMenu from "./MainMenu";
+import Level1 from "./Level1";
 
 export default class LevelSelect extends Scene {
   animatedSprite: AnimatedSprite;
@@ -91,6 +92,7 @@ export default class LevelSelect extends Scene {
       levelBtn.backgroundColor = Color.GREEN;
       levelBtn.borderColor = Color.WHITE;
       levelBtn.borderRadius = 5;
+      levelBtn.setPadding(new Vec2(50, 10));
 
       // Create label for the level
       let levelLabel = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
@@ -103,10 +105,25 @@ export default class LevelSelect extends Scene {
       levelLabel.setHAlign("center");
       levelLabel.setVAlign("center");
 
+      // set up scene options
+      let sceneOptions = {
+        physics: {
+            groupNames: ["ground", "player", "balloon"],
+            collisions:
+            [
+                [0, 1, 1],
+                [1, 0, 0],
+                [1, 0, 0]
+            ]
+        }
+    }
+
       // Fill out click events
       levelBtn.onClick = () => {
         console.log(LevelNames[i] + " clicked");
         // Implement scene change
+        // for testing
+        this.sceneManager.changeToScene(Level1, {}, sceneOptions);
       };
     }
 

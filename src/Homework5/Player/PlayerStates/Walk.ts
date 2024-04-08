@@ -12,6 +12,7 @@ export default class Walk extends OnGround {
 		this.parent.speed = this.parent.MIN_SPEED;
 	}
 
+	/*
 	updateSuit() {
 		if (this.parent.suitColor == HW5_Color.RED){ 
 			this.owner.animation.playIfNotAlready("RED_WALK", true);
@@ -22,6 +23,11 @@ export default class Walk extends OnGround {
 		else if (this.parent.suitColor == HW5_Color.BLUE){
 			this.owner.animation.playIfNotAlready("BLUE_WALK", true);
 		}
+	}
+	*/
+
+	updateSuit() {
+		this.owner.animation.playIfNotAlready("WALK", true);
 	}
 
 	update(deltaT: number): void {

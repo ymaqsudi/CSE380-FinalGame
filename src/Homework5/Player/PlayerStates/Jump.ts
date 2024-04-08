@@ -14,6 +14,7 @@ export default class Jump extends InAir {
 		this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: false});
 	}
 
+	/*
 	updateSuit() {
 		if (this.parent.suitColor == HW5_Color.RED){ 
 			this.owner.animation.play("RED_JUMP", true);
@@ -24,6 +25,11 @@ export default class Jump extends InAir {
 		else if (this.parent.suitColor == HW5_Color.BLUE){
 			this.owner.animation.play("BLUE_JUMP", true);
 		}
+	}
+	*/
+
+	updateSuit() {
+		this.owner.animation.play("JUMP", true);
 	}
 
 	update(deltaT: number): void {
