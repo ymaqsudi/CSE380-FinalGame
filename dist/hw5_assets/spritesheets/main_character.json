@@ -13,7 +13,7 @@
         },
         {
             "name": "WALK",
-            "frames": [ {"index": 6, "duration": 8}, {"index": 7, "duration": 8}, {"index": 8, "duration": 4}, {"index": 9, "duration": 8} ]
+            "frames": [ {"index": 6, "duration": 6}, {"index": 7, "duration": 6}, {"index": 8, "duration": 6}, {"index": 9, "duration": 6} ]
         },
         {
             "name": "JUMP",
