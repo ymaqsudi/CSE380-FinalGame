@@ -14,7 +14,7 @@ import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 
 export default class MenuScene extends Scene {
-    levelTransitionScreen: Rect;
+    MenuTransitionScreen: Rect;
     size: Vec2;
   
     startScene(): void {
@@ -24,14 +24,13 @@ export default class MenuScene extends Scene {
       // Center the viewport
       let size = this.viewport.getHalfSize();
       this.viewport.setFocus(size);
-  
       this.viewport.setZoomLevel(1);
   
-      this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "background", {position: new Vec2(size.x, size.y), size: new Vec2(1200, 800)});
-      this.levelTransitionScreen.color = Color.BLACK;
-      this.levelTransitionScreen.alpha = 1;
+      this.MenuTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "background", {position: new Vec2(size.x, size.y), size: new Vec2(size.x * 2, size.y * 2)});
+      this.MenuTransitionScreen.color = Color.BLACK;
+      this.MenuTransitionScreen.alpha = 1;
   
-      this.levelTransitionScreen.tweens.add("fadeIn", {
+      this.MenuTransitionScreen.tweens.add("fadeIn", {
           startDelay: 0,
           duration: 600,
           effects: [
@@ -45,7 +44,7 @@ export default class MenuScene extends Scene {
           onEnd: HW5_Events.MAINMENU
       });
   
-      this.levelTransitionScreen.tweens.add("fadeOut", {
+      this.MenuTransitionScreen.tweens.add("fadeOut", {
           startDelay: 0,
           duration: 1200,
           effects: [
@@ -58,7 +57,7 @@ export default class MenuScene extends Scene {
           ],
       });
   
-      this.levelTransitionScreen.tweens.play("fadeOut");
+      this.MenuTransitionScreen.tweens.play("fadeOut");
   
       this.receiver.subscribe([
         HW5_Events.MAINMENU

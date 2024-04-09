@@ -16,9 +16,8 @@ export default class LevelSelect extends MenuScene {
 
     // Center the viewport
     let size = this.viewport.getHalfSize();
-    this.viewport.setFocus(size);
-
-    this.viewport.setZoomLevel(1);
+    //this.viewport.setFocus(size);
+    //this.viewport.setZoomLevel(1);
 
     // Back button
     let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {
@@ -33,7 +32,7 @@ export default class LevelSelect extends MenuScene {
       backButton.borderRadius = 5;
   
       backButton.onClick = () => {
-        this.levelTransitionScreen.tweens.play("fadeIn");
+        this.MenuTransitionScreen.tweens.play("fadeIn");
       };
 
     // Variables to help align everything

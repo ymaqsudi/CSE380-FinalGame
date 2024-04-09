@@ -102,7 +102,7 @@ export default class MainMenu extends MenuScene {
       let sceneOptions = {
         // scene options maybe
       };
-      this.sceneManager.changeToScene(LevelSelect, {}, sceneOptions);
+      this.sceneManager.changeToScene(LevelSelect);
     };
 
     aboutBtn.onClick = () => {
@@ -110,7 +110,7 @@ export default class MainMenu extends MenuScene {
     };
 
     controlsBtn.onClick = () => {
-      this.sceneManager.changeToScene(ControlsScene, {}, {});
+      this.sceneManager.changeToScene(ControlsScene);
     };
 
   }

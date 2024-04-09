@@ -186,6 +186,9 @@ export default class GameLevel extends Scene {
                 
                 case HW5_Events.LEVEL_END:
                     {
+                        // complete red level
+                        this.sceneManager.changeToScene(CompletedRedLevel);
+                        /*
                         // Go to the next level
                         if(this.nextLevel){
                             let sceneOptions = {
@@ -199,8 +202,9 @@ export default class GameLevel extends Scene {
                                     ]
                                 }
                             }
-                            this.sceneManager.changeToScene(this.nextLevel, {}, sceneOptions);
+                            //this.sceneManager.changeToScene(this.nextLevel, {}, sceneOptions);
                         }
+                        */
                     }
                     break;
 
@@ -311,7 +315,7 @@ export default class GameLevel extends Scene {
 
         this.levelTransitionScreen.tweens.add("fadeIn", {
             startDelay: 0,
-            duration: 1000,
+            duration: 600,
             effects: [
                 {
                     property: TweenableProperties.alpha,
@@ -325,7 +329,7 @@ export default class GameLevel extends Scene {
 
         this.levelTransitionScreen.tweens.add("fadeOut", {
             startDelay: 0,
-            duration: 1000,
+            duration: 1200,
             effects: [
                 {
                     property: TweenableProperties.alpha,
@@ -384,11 +388,7 @@ export default class GameLevel extends Scene {
         key.destroy();
         this.keyNumber--;
         if(this.keyNumber == 0){
-            this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END, null);
-            let keyTimer  = new Timer(1000, () => {
-                this.sceneManager.changeToScene(CompletedRedLevel);
-            });
-            keyTimer.start();
+            this.emitter.fireEvent(HW5_Events.LEVEL_END);
         }
     }
 

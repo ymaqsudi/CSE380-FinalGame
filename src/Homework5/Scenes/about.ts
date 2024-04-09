@@ -31,7 +31,7 @@ export default class AboutScene extends MenuScene {
     backButton.borderRadius = 5;
 
     backButton.onClick = () => {
-      this.levelTransitionScreen.tweens.play("fadeIn");
+      this.MenuTransitionScreen.tweens.play("fadeIn");
     };
 
     // Main Title Label

@@ -6,22 +6,14 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
-import MainMenu from "./MainMenu";
+import MenuScene from "./MenuScene";
 import LevelSelect from "./level-select";
-import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
-import { HW5_Events } from "../hw5_enums";
-import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
-import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
-import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
-import GameLevel from "./GameLevel";
 
-export default class CompletedRedLevel extends Scene {
+export default class ControlsScene extends Scene {
   animatedSprite: AnimatedSprite;
-  levelTransitionScreen: Rect;
 
   loadScene(): void {
     // Load the menu song
-    this.load.audio("menu", "hw5_assets/music/game-soundtrack.mp3");
   }
 
   startScene(): void {
@@ -30,34 +22,14 @@ export default class CompletedRedLevel extends Scene {
     // Center the viewport
     let size = this.viewport.getHalfSize();
     this.viewport.setFocus(size);
-
     this.viewport.setZoomLevel(1);
 
-    this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "Main", {position: new Vec2(size.x, size.y), size: new Vec2(1200, 800)});
-    this.levelTransitionScreen.color = Color.BLACK;
-    this.levelTransitionScreen.alpha = 1;
-
-    this.levelTransitionScreen.tweens.add("fadeOut", {
-        startDelay: 0,
-        duration: 1000,
-        effects: [
-            {
-                property: TweenableProperties.alpha,
-                start: 1,
-                end: 0,
-                ease: EaseFunctionType.IN_OUT_QUAD
-            }
-        ],
-        onEnd: HW5_Events.LEVEL_START
-    });
-
-    this.levelTransitionScreen.tweens.play("fadeOut");
-    
     // Back button
     let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {
       position: new Vec2(100, 50), // Positioning at the bottom left
       text: "Back",
     });
+
     backButton.backgroundColor = new Color(67, 67, 67);
     backButton.textColor = Color.WHITE;
     backButton.font = "PixelSimple";
@@ -66,9 +38,8 @@ export default class CompletedRedLevel extends Scene {
     backButton.borderRadius = 5;
 
     backButton.onClick = () => {
-      this.sceneManager.changeToScene(LevelSelect, {}, {});
-    this.emitter.fireEvent(GameEventType.PLAY_MUSIC, { key: "menu" });
-  };
+      this.sceneManager.changeToScene(LevelSelect);
+    };
 
     // Main Title Label
     let title = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
@@ -112,13 +83,97 @@ export default class CompletedRedLevel extends Scene {
       text3.setHAlign("center");
       text3.setVAlign("center");
 
+    // Scene has started, so start playing music
+    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
+      key: "menu",
+      loop: true,
+      holdReference: true,
+    });
+  }
+
+  unloadScene(): void {
+    // The scene is being destroyed, so we can stop playing the song
+    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+  }
+}
+/*
+export default class CompletedRedLevel extends MenuScene {
+  animatedSprite: AnimatedSprite;
+
+  startScene(): void {
+    super.startScene();
+
+    // Center the viewport
+    let size = this.viewport.getHalfSize();
+    this.viewport.setFocus(size);
+
+    this.viewport.setZoomLevel(1);
+    
+    // Back button
+    let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {
+      position: new Vec2(100, 50), // Positioning at the bottom left
+      text: "Back",
+    });
+    
+    backButton.backgroundColor = new Color(67, 67, 67);
+    backButton.textColor = Color.WHITE;
+    backButton.font = "PixelSimple";
+    backButton.fontSize = 24;
+    backButton.size.set(100, 50); // Set the size of the back button
+    backButton.borderRadius = 5;
+
+    backButton.onClick = () => {
+      this.MenuTransitionScreen.tweens.play("fadeIn");
+  };
+
+    // Main Title Label
+    let title = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
+      position: new Vec2(size.x, size.y - 200),
+      text: "Strange...",
+    });
+    title.textColor = Color.WHITE;
+    title.font = "PixelSimple";
+    title.fontSize = 48;
+    title.setHAlign("center");
+    title.setVAlign("center");
+
+    let text1 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
+        position: new Vec2(size.x, size.y),
+        text: "After picking that glowing item the world seems to have changed",
+      });
+      text1.textColor = Color.WHITE;
+      text1.font = "PixelSimple";
+      text1.fontSize = 22;
+      text1.setHAlign("center");
+      text1.setVAlign("center");
+
+    let text2 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
+        position: new Vec2(size.x, size.y + 25),
+        text: "There seems to be a new...",
+      });
+      text2.textColor = Color.WHITE;
+      text2.font = "PixelSimple";
+      text2.fontSize = 22;
+      text2.setHAlign("center");
+      text2.setVAlign("center");
+
+    let text3 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
+        position: new Vec2(size.x, size.y + 50),
+        text: "COLOR",
+      });
+      text3.textColor = Color.RED;
+      text3.font = "PixelSimple";
+      text3.fontSize = 22;
+      text3.setHAlign("center");
+      text3.setVAlign("center");
+
 
     // Scene has started, so start playing music
     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
   }
 
-  unloadScene(): void {
-    // The scene is being destroyed, so we can stop playing the song
-    // this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+  updateScene(deltaT: number): void {
+    super.updateScene(deltaT);
   }
 }
+*/
