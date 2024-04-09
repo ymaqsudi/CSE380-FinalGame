@@ -30,6 +30,7 @@ import CompletedRedLevel from "./completedRedLevel";
  * it's up to you.
  */
 export default class GameLevel extends Scene {
+    
     // Every level will have a player, which will be an animated sprite
     protected playerSpawn: Vec2;
     protected player: AnimatedSprite;
@@ -379,6 +380,7 @@ export default class GameLevel extends Scene {
     }
 
     protected handleKeyCollision(player: AnimatedSprite, key:AnimatedSprite){
+		this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "collection", loop: false, holdReference: false});
         key.destroy();
         this.keyNumber--;
         if(this.keyNumber == 0){
