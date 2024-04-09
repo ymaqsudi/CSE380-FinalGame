@@ -28,8 +28,6 @@ export default class firstScene extends Scene {
     this.viewport.setFocus(size);
     this.viewport.setZoomLevel(1);
 
-    
-
     // Display background image
     let background = this.add.sprite("introBackground", "Main");
     background.position.set(size.x, size.y);
@@ -76,13 +74,13 @@ export default class firstScene extends Scene {
 
     // Check for mouse click to continue
     if (Input.isMouseJustPressed()) {
-        this.sceneManager.changeToScene(MainMenu, {}, {});
+        this.sceneManager.changeToScene(MainMenu);
     }
 }
 
   unloadScene(): void {
     // The scene is being destroyed, so we can stop playing the song
-    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+    // this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
     this.load.keepImage("introBackground");
   }
 }

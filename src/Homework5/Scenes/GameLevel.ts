@@ -20,7 +20,7 @@ import { HW5_Events } from "../hw5_enums";
 import HW5_ParticleSystem from "../HW5_ParticleSystem";
 import PlayerController from "../Player/PlayerController";
 import MainMenu from "./MainMenu";
-import completedRedLevel from "./completedRedLevel";
+import CompletedRedLevel from "./completedRedLevel";
 
 // HOMEWORK 5 - TODO
 /**
@@ -103,7 +103,9 @@ export default class GameLevel extends Scene {
 
         // Initially disable player movement
         Input.disableInput();
-        this.emitter.fireEvent(HW5_Events.SUIT_COLOR_CHANGE, {color: HW5_Color.RED});
+
+        // stop playing menu music
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
     }
 
 
@@ -200,10 +202,12 @@ export default class GameLevel extends Scene {
                         }
                     }
                     break;
+
                 case HW5_Events.PLAYER_KILLED:
                     {
                         this.respawnPlayer();
                     }
+                    break;
 
             }
         }
@@ -258,7 +262,8 @@ export default class GameLevel extends Scene {
             HW5_Events.PLAYER_ENTERED_LEVEL_END,
             HW5_Events.LEVEL_START,
             HW5_Events.LEVEL_END,
-            HW5_Events.PLAYER_KILLED
+            HW5_Events.PLAYER_KILLED,
+            HW5_Events.MAINMENU,
         ]);
     }
 
@@ -300,7 +305,7 @@ export default class GameLevel extends Scene {
         this.system.initializePool(this, "primary");
 
         this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(300, 200), size: new Vec2(600, 400)});
-        this.levelTransitionScreen.color = new Color(34, 32, 52);
+        this.levelTransitionScreen.color = Color.BLACK;
         this.levelTransitionScreen.alpha = 1;
 
         this.levelTransitionScreen.tweens.add("fadeIn", {
@@ -314,7 +319,7 @@ export default class GameLevel extends Scene {
                     ease: EaseFunctionType.IN_OUT_QUAD
                 }
             ],
-            onEnd: HW5_Events.LEVEL_END
+            //onEnd: HW5_Events.LEVEL_END
         });
 
         this.levelTransitionScreen.tweens.add("fadeOut", {
@@ -377,7 +382,10 @@ export default class GameLevel extends Scene {
         key.destroy();
         this.keyNumber--;
         if(this.keyNumber == 0){
-            let keyTimer  = new Timer(1000, () => {this.sceneManager.changeToScene(completedRedLevel, {}, {});});
+            this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END, null);
+            let keyTimer  = new Timer(1000, () => {
+                this.sceneManager.changeToScene(CompletedRedLevel);
+            });
             keyTimer.start();
         }
     }

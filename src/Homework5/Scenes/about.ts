@@ -1,23 +1,16 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
-import MainMenu from "./MainMenu";
+import MenuScene from "./MenuScene";
 
-export default class AboutScene extends Scene {
+export default class AboutScene extends MenuScene {
   animatedSprite: AnimatedSprite;
 
-  loadScene(): void {
-    // Load the menu song
-    this.load.audio("menu", "hw5_assets/music/game-soundtrack.mp3");
-  }
-
   startScene(): void {
-    this.addUILayer("Main");
+    super.startScene();
 
     // Center the viewport
     let size = this.viewport.getHalfSize();
@@ -27,7 +20,7 @@ export default class AboutScene extends Scene {
 
     // Back button
     let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {
-      position: new Vec2(100, 50), // Positioning at the bottom left
+      position: new Vec2(100, 50), // Positioning at the top left
       text: "Back",
     });
     backButton.backgroundColor = new Color(67, 67, 67);
@@ -38,7 +31,7 @@ export default class AboutScene extends Scene {
     backButton.borderRadius = 5;
 
     backButton.onClick = () => {
-      this.sceneManager.changeToScene(MainMenu, {}, {});
+      this.levelTransitionScreen.tweens.play("fadeIn");
     };
 
     // Main Title Label
@@ -93,17 +86,9 @@ export default class AboutScene extends Scene {
     authors.fontSize = 22;
     authors.setHAlign("center");
     authors.setVAlign("center");
-
-    // Scene has started, so start playing music
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
-      key: "menu",
-      loop: true,
-      holdReference: true,
-    });
   }
 
-  unloadScene(): void {
-    // The scene is being destroyed, so we can stop playing the song
-    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+  updateScene(deltaT: number): void {
+    super.updateScene(deltaT);
   }
 }

@@ -65,6 +65,7 @@ export default class Level1 extends GameLevel {
     protected handleKeyCollision(player: AnimatedSprite, key: AnimatedSprite) {
         // Call the parent class method to handle common collision logic
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: false}); // placeholder
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
         super.handleKeyCollision(player, key);
     }
 

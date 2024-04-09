@@ -8,9 +8,16 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import MainMenu from "./MainMenu";
 import LevelSelect from "./level-select";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
+import { HW5_Events } from "../hw5_enums";
+import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import GameLevel from "./GameLevel";
 
-export default class ControlsScene extends Scene {
+export default class CompletedRedLevel extends Scene {
   animatedSprite: AnimatedSprite;
+  levelTransitionScreen: Rect;
 
   loadScene(): void {
     // Load the menu song
@@ -26,6 +33,26 @@ export default class ControlsScene extends Scene {
 
     this.viewport.setZoomLevel(1);
 
+    this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "Main", {position: new Vec2(size.x, size.y), size: new Vec2(1200, 800)});
+    this.levelTransitionScreen.color = Color.BLACK;
+    this.levelTransitionScreen.alpha = 1;
+
+    this.levelTransitionScreen.tweens.add("fadeOut", {
+        startDelay: 0,
+        duration: 1000,
+        effects: [
+            {
+                property: TweenableProperties.alpha,
+                start: 1,
+                end: 0,
+                ease: EaseFunctionType.IN_OUT_QUAD
+            }
+        ],
+        onEnd: HW5_Events.LEVEL_START
+    });
+
+    this.levelTransitionScreen.tweens.play("fadeOut");
+    
     // Back button
     let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {
       position: new Vec2(100, 50), // Positioning at the bottom left
@@ -40,7 +67,8 @@ export default class ControlsScene extends Scene {
 
     backButton.onClick = () => {
       this.sceneManager.changeToScene(LevelSelect, {}, {});
-    };
+    this.emitter.fireEvent(GameEventType.PLAY_MUSIC, { key: "menu" });
+  };
 
     // Main Title Label
     let title = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
@@ -84,12 +112,13 @@ export default class ControlsScene extends Scene {
       text3.setHAlign("center");
       text3.setVAlign("center");
 
+
     // Scene has started, so start playing music
-    //this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
+    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
   }
 
   unloadScene(): void {
     // The scene is being destroyed, so we can stop playing the song
-    //this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+    // this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
   }
 }

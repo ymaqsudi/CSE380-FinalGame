@@ -9,18 +9,15 @@ import Color from "../../Wolfie2D/Utils/Color";
 import LevelSelect from "./level-select";
 import AboutScene from "./about";
 import ControlsScene from "./controls";
+import MenuScene from "./MenuScene";
 
-export default class MainMenu extends Scene {
+export default class MainMenu extends MenuScene {
   animatedSprite: AnimatedSprite;
 
-  loadScene(): void {
-    // Load the menu song
-    this.load.audio("menu", "hw5_assets/music/game-soundtrack.mp3");
-  }
-
   startScene(): void {
-    this.addUILayer("Main");
-
+    super.startScene();
+    this.addLayer("MainUI", 2);
+    let background = this.add.sprite("introBackground", "Main");
 
     // Center the viewport
     let size = this.viewport.getHalfSize();
@@ -29,7 +26,6 @@ export default class MainMenu extends Scene {
     this.viewport.setZoomLevel(1);
 
     // Display background image
-    let background = this.add.sprite("introBackground", "Main");
     background.position.set(size.x, size.y);
     background.scale.set(
       (this.viewport.getHalfSize().x / background.size.x) * 2,
@@ -38,7 +34,7 @@ export default class MainMenu extends Scene {
 
     // Main Title Label
     let title = <Label>(
-      this.add.uiElement(UIElementType.LABEL, "Main", {
+      this.add.uiElement(UIElementType.LABEL, "MainUI", {
         position: new Vec2(size.x, size.y - 200),
         text: "ERITQUE ARCUS",
       })
@@ -51,7 +47,7 @@ export default class MainMenu extends Scene {
 
     // Subtitle Label
     let subtitle = <Label>(
-      this.add.uiElement(UIElementType.LABEL, "Main", {
+      this.add.uiElement(UIElementType.LABEL, "MainUI", {
         position: new Vec2(size.x, size.y - 150),
         text: "there will be a rainbow",
       })
@@ -64,7 +60,7 @@ export default class MainMenu extends Scene {
 
     // Create a play button
     let playBtn = <Button>(
-      this.add.uiElement(UIElementType.BUTTON, "Main", {
+      this.add.uiElement(UIElementType.BUTTON, "MainUI", {
         position: new Vec2(size.x, size.y),
         text: "play",
       })
@@ -77,7 +73,7 @@ export default class MainMenu extends Scene {
 
     // Create about button
     let aboutBtn = <Button>(
-      this.add.uiElement(UIElementType.BUTTON, "Main", {
+      this.add.uiElement(UIElementType.BUTTON, "MainUI", {
         position: new Vec2(size.x, size.y + 100),
         text: "about",
       })
@@ -90,7 +86,7 @@ export default class MainMenu extends Scene {
 
     // Create controls button
     let controlsBtn = <Button>(
-      this.add.uiElement(UIElementType.BUTTON, "Main", {
+      this.add.uiElement(UIElementType.BUTTON, "MainUI", {
         position: new Vec2(size.x, size.y + 200),
         text: "controls",
       })
@@ -110,23 +106,16 @@ export default class MainMenu extends Scene {
     };
 
     aboutBtn.onClick = () => {
-      this.sceneManager.changeToScene(AboutScene, {}, {});
+      this.sceneManager.changeToScene(AboutScene);
     };
 
     controlsBtn.onClick = () => {
       this.sceneManager.changeToScene(ControlsScene, {}, {});
     };
 
-    // Scene has started, so start playing music
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
-      key: "menu",
-      loop: true,
-      holdReference: true,
-    });
   }
 
-  unloadScene(): void {
-    // The scene is being destroyed, so we can stop playing the song
-    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+  updateScene(deltaT: number): void {
+    super.updateScene(deltaT);
   }
 }
