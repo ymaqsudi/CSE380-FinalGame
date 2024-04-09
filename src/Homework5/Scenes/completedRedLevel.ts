@@ -14,7 +14,6 @@ export default class ControlsScene extends Scene {
 
   loadScene(): void {
     // Load the menu song
-    this.load.audio("menu", "hw5_assets/music/game-soundtrack.mp3");
   }
 
   startScene(): void {
