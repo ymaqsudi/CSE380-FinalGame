@@ -31,7 +31,7 @@ export default class ControlsScene extends Scene {
       position: new Vec2(100, 50), // Positioning at the bottom left
       text: "Back",
     });
-    backButton.backgroundColor = Color.RED;
+    backButton.backgroundColor = new Color(67, 67, 67);
     backButton.textColor = Color.WHITE;
     backButton.font = "PixelSimple";
     backButton.fontSize = 24;
@@ -85,15 +85,11 @@ export default class ControlsScene extends Scene {
       text3.setVAlign("center");
 
     // Scene has started, so start playing music
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
-      key: "menu",
-      loop: true,
-      holdReference: true,
-    });
+    //this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
   }
 
   unloadScene(): void {
     // The scene is being destroyed, so we can stop playing the song
-    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+    //this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
   }
 }

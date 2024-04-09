@@ -78,6 +78,7 @@ export default class GameLevel extends Scene {
         this.subscribeToEvents();
         this.addUI();
 
+        this.keyNumber = 0;
         // Initialize the timers
         this.respawnTimer = new Timer(1000, () => {
             if(GameLevel.livesCount === 0){
@@ -369,16 +370,16 @@ export default class GameLevel extends Scene {
         key.addPhysics();
         key.setGroup("key");
         key.setTrigger("player", HW5_Events.PLAYER_HIT_BALLOON, null);
-        this.keyNumber = 1;
+        this.keyNumber++;
     }
 
     protected handleKeyCollision(player: AnimatedSprite, key:AnimatedSprite){
         key.destroy();
-        this.keyNumber = 0;
+        this.keyNumber--;
         if(this.keyNumber == 0){
-            this.sceneManager.changeToScene(completedRedLevel, {}, {});
+            let keyTimer  = new Timer(1000, () => {this.sceneManager.changeToScene(completedRedLevel, {}, {});});
+            keyTimer.start();
         }
-        
     }
 
     /**

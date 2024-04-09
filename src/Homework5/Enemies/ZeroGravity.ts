@@ -4,7 +4,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { HW5_Events } from "../hw5_enums";
 import BalloonState from "./BalloonState";
 
-// HOMEWORK 5 - TODO
+// HOMEWORK 5 - TODO - DONE
 /**
  * For this homework, you'll have to implement an additional state to the AI from scratch.
  * 
@@ -22,9 +22,28 @@ import BalloonState from "./BalloonState";
  */
 export default class ZeroGravity extends BalloonState {
 	onEnter(): void {
+		this.gravity = 0;
+
+		(<AnimatedSprite>this.owner).animation.play("IDLE", true);
+	}
+
+	update(deltaT: number): void {
+		super.update(deltaT);
+
+		let balloon_position = this.owner.position;
+
+		// check if the player and zero gravity balloon is within 10 tiles
+		if(balloon_position != undefined && this.player_position != undefined 
+			&& balloon_position.distanceTo(this.player_position) < 10 * 32) {
+			// double the x-direction velocity
+			this.parent.velocity.x = this.parent.direction.x * this.parent.speed * 2;
+		}
+
+		this.owner.move(this.parent.velocity.scaled(deltaT));
 	}
 
 	onExit(): Record<string, any> {
+		(<AnimatedSprite>this.owner).animation.stop();
 		return {};
 	}
 }

@@ -31,7 +31,7 @@ export default class LevelSelect extends Scene {
         position: new Vec2(100, 50), // Positioning at the bottom left
         text: "Back",
       });
-      backButton.backgroundColor = Color.RED;
+      backButton.backgroundColor = new Color(67, 67, 67);
       backButton.textColor = Color.WHITE;
       backButton.font = "PixelSimple";
       backButton.fontSize = 24;
@@ -89,7 +89,7 @@ export default class LevelSelect extends Scene {
         text: "",
         size: new Vec2(boxWidth, boxHeight),
       });
-      levelBtn.backgroundColor = Color.GREEN;
+      levelBtn.backgroundColor = new Color(67, 67, 67);
       levelBtn.borderColor = Color.WHITE;
       levelBtn.borderRadius = 5;
       levelBtn.setPadding(new Vec2(50, 10));

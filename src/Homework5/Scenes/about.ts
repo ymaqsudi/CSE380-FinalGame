@@ -30,7 +30,7 @@ export default class AboutScene extends Scene {
       position: new Vec2(100, 50), // Positioning at the bottom left
       text: "Back",
     });
-    backButton.backgroundColor = Color.RED;
+    backButton.backgroundColor = new Color(67, 67, 67);
     backButton.textColor = Color.WHITE;
     backButton.font = "PixelSimple";
     backButton.fontSize = 24;
@@ -54,7 +54,7 @@ export default class AboutScene extends Scene {
 
     // About text Label
     let text1 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-      position: new Vec2(size.x, size.y),
+      position: new Vec2(size.x, size.y - 100),
       text: "This world has always been various shades of black, gray, and white.",
     });
     text1.textColor = Color.WHITE;
@@ -65,7 +65,7 @@ export default class AboutScene extends Scene {
 
     // About text Label
     let text2 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-      position: new Vec2(size.x, size.y + 25),
+      position: new Vec2(size.x, size.y - 75),
       text: "But you have recently heard stories of these hidden items that once found, can help to light the world up in colors never seen before.",
     });
     text2.textColor = Color.WHITE;
@@ -75,7 +75,7 @@ export default class AboutScene extends Scene {
     text2.setVAlign("center");
 
     let text3 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-      position: new Vec2(size.x, size.y + 50),
+      position: new Vec2(size.x, size.y - 50),
       text: "Enthralled with the story, you head out on an adventure, seeking to transform the world into one full of vivid color.",
     });
     text3.textColor = Color.WHITE;
@@ -85,8 +85,8 @@ export default class AboutScene extends Scene {
     text3.setVAlign("center");
 
     let authors = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-      position: new Vec2(size.x, size.y + 200),
-      text: "Made by Sabrinna K, Zijun W, and Yaseen M",
+      position: new Vec2(size.x, size.y + 100),
+      text: "Presented by Sabrinna K, Zijun W, and Yaseen M",
     });
     authors.textColor = Color.WHITE;
     authors.font = "PixelSimple";

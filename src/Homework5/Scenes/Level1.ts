@@ -28,22 +28,6 @@ export default class Level1 extends GameLevel {
         this.load.audio("level_music", "hw5_assets/music/menu.mp3");
     }
 
-    // HOMEWORK 5 - TODO
-    /**
-     * Decide which resource to keep and which to cull.
-     * 
-     * Check out the resource manager class.
-     * 
-     * Figure out how to save resources from being unloaded, and save the ones that are needed
-     * for level 2.
-     * 
-     * This will let us cut down on load time for the game (although there is admittedly
-     * not a lot of load time for such a small project).
-     */
-    unloadScene(){
-        // Keep resources - this is up to you
-    }
-
     startScene(): void {
         // Add the level 1 tilemap
         this.add.tilemap("level0", new Vec2(2, 2));
@@ -63,7 +47,6 @@ export default class Level1 extends GameLevel {
         this.nextLevel = Level2;
 
         this.addKey("redKey", new Vec2(39, 3));
-
         // Add balloons of various types, just red and blue for the first level
         /*for(let pos of [new Vec2(18, 8), new Vec2(25, 3), new Vec2(52, 5)]){
             this.addBalloon("red", pos, {color: HW5_Color.RED});
@@ -79,8 +62,15 @@ export default class Level1 extends GameLevel {
         super.updateScene(deltaT);
     }
 
-    protected handleKeyCollision(player: AnimatedSprite, balloon: AnimatedSprite) {
+    protected handleKeyCollision(player: AnimatedSprite, key: AnimatedSprite) {
         // Call the parent class method to handle common collision logic
-        super.handleKeyCollision(player, balloon);
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: false}); // placeholder
+        super.handleKeyCollision(player, key);
     }
+
+    unloadScene(): void {
+        // The scene is being destroyed, so we can stop playing the song
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
+      }
+    
 }

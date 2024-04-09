@@ -10,6 +10,7 @@ export default class Walk extends OnGround {
 
 	onEnter(options: Record<string, any>): void {
 		this.parent.speed = this.parent.MIN_SPEED;
+		this.owner.animation.play("WALK", true);
 	}
 
 	/*
@@ -24,11 +25,11 @@ export default class Walk extends OnGround {
 			this.owner.animation.playIfNotAlready("BLUE_WALK", true);
 		}
 	}
-	*/
 
 	updateSuit() {
 		this.owner.animation.playIfNotAlready("WALK", true);
 	}
+	*/
 
 	update(deltaT: number): void {
 		super.update(deltaT);

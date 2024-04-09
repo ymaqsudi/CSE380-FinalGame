@@ -21,11 +21,20 @@ export default class MainMenu extends Scene {
   startScene(): void {
     this.addUILayer("Main");
 
+
     // Center the viewport
     let size = this.viewport.getHalfSize();
     this.viewport.setFocus(size);
 
     this.viewport.setZoomLevel(1);
+
+    // Display background image
+    let background = this.add.sprite("introBackground", "Main");
+    background.position.set(size.x, size.y);
+    background.scale.set(
+      (this.viewport.getHalfSize().x / background.size.x) * 2,
+      (this.viewport.getHalfSize().y / background.size.y) * 2
+    );
 
     // Main Title Label
     let title = <Label>(

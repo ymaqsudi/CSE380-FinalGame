@@ -30,7 +30,7 @@ export default class ControlsScene extends Scene {
       position: new Vec2(100, 50), // Positioning at the bottom left
       text: "Back",
     });
-    backButton.backgroundColor = Color.RED;
+    backButton.backgroundColor = new Color(67, 67, 67);
     backButton.textColor = Color.WHITE;
     backButton.font = "PixelSimple";
     backButton.fontSize = 24;
