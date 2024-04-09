@@ -91,7 +91,7 @@ export default class GameLevel extends Scene {
             }
         });
         this.levelTransitionTimer = new Timer(500);
-        this.levelEndTimer = new Timer(3000, () => {
+        this.levelEndTimer = new Timer(500, () => {
             // After the level end timer ends, fade to black and then go to the next scene
             this.levelTransitionScreen.tweens.play("fadeIn");
         });
@@ -166,14 +166,10 @@ export default class GameLevel extends Scene {
                     
                 case HW5_Events.PLAYER_ENTERED_LEVEL_END:
                     {
-                        //Check if the player has pressed all the switches and popped all of the balloons
-                        if (this.switchesPressed >= this.totalSwitches && this.balloonsPopped >= this.totalBalloons){
-                            if(!this.levelEndTimer.hasRun() && this.levelEndTimer.isStopped()){
-                                // The player has reached the end of the level
-                                this.levelEndTimer.start();
-                                this.levelEndLabel.tweens.play("slideIn");
-                            }
-                        }
+                        // The player has reached the end of the level
+                        this.levelEndTimer.start();
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
+                        Input.disableInput();
                     }
                     break;
 
@@ -187,6 +183,8 @@ export default class GameLevel extends Scene {
                 case HW5_Events.LEVEL_END:
                     {
                         // complete red level
+                        this.viewport.follow(null);
+                        Input.enableInput();
                         this.sceneManager.changeToScene(CompletedRedLevel);
                         /*
                         // Go to the next level
@@ -224,8 +222,8 @@ export default class GameLevel extends Scene {
          */
         if (this.suitChangeTimer.isStopped()) {
             if (Input.isKeyJustPressed("1")) {
-                this.emitter.fireEvent(HW5_Events.SUIT_COLOR_CHANGE, {color: HW5_Color.RED});
-                this.suitChangeTimer.start();
+                this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
+                //this.suitChangeTimer.start();
             }
             if (Input.isKeyJustPressed("2")) {
                 this.emitter.fireEvent(HW5_Events.SUIT_COLOR_CHANGE, {color: HW5_Color.BLUE});
@@ -268,7 +266,6 @@ export default class GameLevel extends Scene {
             HW5_Events.LEVEL_START,
             HW5_Events.LEVEL_END,
             HW5_Events.PLAYER_KILLED,
-            HW5_Events.MAINMENU,
         ]);
     }
 
@@ -315,7 +312,7 @@ export default class GameLevel extends Scene {
 
         this.levelTransitionScreen.tweens.add("fadeIn", {
             startDelay: 0,
-            duration: 600,
+            duration: 500,
             effects: [
                 {
                     property: TweenableProperties.alpha,
@@ -324,12 +321,12 @@ export default class GameLevel extends Scene {
                     ease: EaseFunctionType.IN_OUT_QUAD
                 }
             ],
-            //onEnd: HW5_Events.LEVEL_END
+            onEnd: HW5_Events.LEVEL_END
         });
 
         this.levelTransitionScreen.tweens.add("fadeOut", {
             startDelay: 0,
-            duration: 1200,
+            duration: 1000,
             effects: [
                 {
                     property: TweenableProperties.alpha,
@@ -387,8 +384,8 @@ export default class GameLevel extends Scene {
 		this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "collection", loop: false, holdReference: false});
         key.destroy();
         this.keyNumber--;
-        if(this.keyNumber == 0){
-            this.emitter.fireEvent(HW5_Events.LEVEL_END);
+        if(this.keyNumber === 0){
+            this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
         }
     }
 

@@ -15,7 +15,6 @@ export default class AboutScene extends MenuScene {
     // Center the viewport
     let size = this.viewport.getHalfSize();
     this.viewport.setFocus(size);
-
     this.viewport.setZoomLevel(1);
 
     // Back button
@@ -23,15 +22,18 @@ export default class AboutScene extends MenuScene {
       position: new Vec2(100, 50), // Positioning at the top left
       text: "Back",
     });
-    backButton.backgroundColor = new Color(67, 67, 67);
+
+    backButton.backgroundColor = Color.TRANSPARENT;
+    backButton.borderColor = Color.WHITE;
+    backButton.borderRadius = 5;
     backButton.textColor = Color.WHITE;
     backButton.font = "PixelSimple";
     backButton.fontSize = 24;
     backButton.size.set(100, 50); // Set the size of the back button
-    backButton.borderRadius = 5;
+    backButton.onEnter = () => {backButton.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     backButton.onClick = () => {
-      this.MenuTransitionScreen.tweens.play("fadeIn");
+      this.MenuTransitionScreen.tweens.play("fadeInToMain");
     };
 
     // Main Title Label

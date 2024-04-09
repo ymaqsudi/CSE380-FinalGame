@@ -9,5 +9,8 @@ export enum HW5_Events {
     LEVEL_END = "LevelEnd",
     PLAYER_KILLED = "PlayerKilled",
     SUIT_COLOR_CHANGE = "SuitColorChange",
-    MAINMENU = "MainMenu"
+    TOMAIN = "ToMain",
+    TOSELECT = "ToSelect",
+    TOABOUT = "ToAbout",
+    TOCONTROLS = "ToControls",
 }

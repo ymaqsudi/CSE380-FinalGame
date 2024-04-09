@@ -5,7 +5,6 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Color from "../../Wolfie2D/Utils/Color";
-import MainMenu from "./MainMenu";
 import MenuScene from "./MenuScene";
 
 export default class ControlsScene extends MenuScene {
@@ -17,7 +16,6 @@ export default class ControlsScene extends MenuScene {
     // Center the viewport
     let size = this.viewport.getHalfSize();
     this.viewport.setFocus(size);
-
     this.viewport.setZoomLevel(1);
 
     // Back button
@@ -25,15 +23,18 @@ export default class ControlsScene extends MenuScene {
       position: new Vec2(100, 50), // Positioning at the bottom left
       text: "Back",
     });
-    backButton.backgroundColor = new Color(67, 67, 67);
+
+    backButton.backgroundColor = Color.TRANSPARENT;
+    backButton.borderColor = Color.WHITE;
     backButton.textColor = Color.WHITE;
     backButton.font = "PixelSimple";
     backButton.fontSize = 24;
     backButton.size.set(100, 50); // Set the size of the back button
     backButton.borderRadius = 5;
+    backButton.onEnter = () => {backButton.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     backButton.onClick = () => {
-      this.MenuTransitionScreen.tweens.play("fadeIn");
+      this.MenuTransitionScreen.tweens.play("fadeInToMain");
     };
 
     // Main Title Label

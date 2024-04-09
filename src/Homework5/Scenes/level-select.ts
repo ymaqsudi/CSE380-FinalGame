@@ -4,6 +4,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import Level1 from "./Level1";
 import MenuScene from "./MenuScene";
@@ -16,23 +17,25 @@ export default class LevelSelect extends MenuScene {
 
     // Center the viewport
     let size = this.viewport.getHalfSize();
-    //this.viewport.setFocus(size);
-    //this.viewport.setZoomLevel(1);
+    this.viewport.setFocus(size);
+    this.viewport.setZoomLevel(1);
 
     // Back button
     let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {
         position: new Vec2(100, 50), // Positioning at the bottom left
         text: "Back",
       });
-      backButton.backgroundColor = new Color(67, 67, 67);
+      backButton.backgroundColor = Color.TRANSPARENT;
+      backButton.borderColor = Color.WHITE;
       backButton.textColor = Color.WHITE;
       backButton.font = "PixelSimple";
       backButton.fontSize = 24;
       backButton.size.set(100, 50); // Set the size of the back button
       backButton.borderRadius = 5;
+      backButton.onEnter = () => {backButton.backgroundColor = new Color(255, 255, 255, 0.2);}
   
       backButton.onClick = () => {
-        this.MenuTransitionScreen.tweens.play("fadeIn");
+        this.MenuTransitionScreen.tweens.play("fadeInToMain");
       };
 
     // Variables to help align everything
@@ -116,7 +119,11 @@ export default class LevelSelect extends MenuScene {
         console.log(LevelNames[i] + " clicked");
         // Implement scene change
         // for testing
-        this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+        this.MenuTransitionScreen.tweens.play("fadeIn");
+        let levelStartTimer = new Timer(500, () => {
+          this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+        });
+        levelStartTimer.start();
       };
     }
 

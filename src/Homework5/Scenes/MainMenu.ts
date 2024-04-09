@@ -1,15 +1,17 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Scene from "../../Wolfie2D/Scene/Scene";
+import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
-import LevelSelect from "./level-select";
+import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import { HW5_Events } from "../hw5_enums";
+import MenuScene from "./MenuScene";
 import AboutScene from "./about";
 import ControlsScene from "./controls";
-import MenuScene from "./MenuScene";
+import LevelSelect from "./level-select";
 
 export default class MainMenu extends MenuScene {
   animatedSprite: AnimatedSprite;
@@ -22,7 +24,6 @@ export default class MainMenu extends MenuScene {
     // Center the viewport
     let size = this.viewport.getHalfSize();
     this.viewport.setFocus(size);
-
     this.viewport.setZoomLevel(1);
 
     // Display background image
@@ -39,6 +40,7 @@ export default class MainMenu extends MenuScene {
         text: "ERITQUE ARCUS",
       })
     );
+
     title.textColor = Color.WHITE;
     title.font = "PixelSimple";
     title.fontSize = 48;
@@ -54,7 +56,7 @@ export default class MainMenu extends MenuScene {
     );
     subtitle.textColor = Color.WHITE;
     subtitle.font = "PixelSimple";
-    subtitle.fontSize = 18;
+    subtitle.fontSize = 24;
     subtitle.setHAlign("center");
     subtitle.setVAlign("center");
 
@@ -70,6 +72,7 @@ export default class MainMenu extends MenuScene {
     playBtn.borderRadius = 0;
     playBtn.setPadding(new Vec2(50, 10));
     playBtn.font = "PixelSimple";
+    playBtn.onEnter = () => {playBtn.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     // Create about button
     let aboutBtn = <Button>(
@@ -83,6 +86,7 @@ export default class MainMenu extends MenuScene {
     aboutBtn.borderRadius = 0;
     aboutBtn.setPadding(new Vec2(50, 10));
     aboutBtn.font = "PixelSimple";
+    aboutBtn.onEnter = () => {aboutBtn.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     // Create controls button
     let controlsBtn = <Button>(
@@ -96,21 +100,37 @@ export default class MainMenu extends MenuScene {
     controlsBtn.borderRadius = 0;
     controlsBtn.setPadding(new Vec2(50, 10));
     controlsBtn.font = "PixelSimple";
+    controlsBtn.onEnter = () => {controlsBtn.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     // When the play button is clicked, go to the next scene
     playBtn.onClick = () => {
       let sceneOptions = {
         // scene options maybe
       };
-      this.sceneManager.changeToScene(LevelSelect);
+      //this.sceneManager.changeToScene(LevelSelect);
+      this.MenuTransitionScreen.tweens.play("fadeIn");
+      let selectTimer = new Timer(500, () => {
+        this.sceneManager.changeToScene(LevelSelect);
+      });
+      selectTimer.start();
     };
 
     aboutBtn.onClick = () => {
-      this.sceneManager.changeToScene(AboutScene);
+      //this.sceneManager.changeToScene(AboutScene);
+      this.MenuTransitionScreen.tweens.play("fadeIn");
+      let aboutTimer = new Timer(500, () => {
+        this.sceneManager.changeToScene(AboutScene);
+      });
+      aboutTimer.start();
     };
 
     controlsBtn.onClick = () => {
-      this.sceneManager.changeToScene(ControlsScene);
+      //this.sceneManager.changeToScene(ControlsScene);
+      this.MenuTransitionScreen.tweens.play("fadeIn");
+      let controlsTimer = new Timer(500, () => {
+        this.sceneManager.changeToScene(ControlsScene);
+      });
+      controlsTimer.start();
     };
 
   }

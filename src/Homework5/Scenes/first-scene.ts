@@ -2,14 +2,15 @@ import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Input from "../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
+import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import MainMenu from "./MainMenu";
+import MenuScene from "./MenuScene";
 
-export default class firstScene extends Scene {
+export default class firstScene extends MenuScene {
   animatedSprite: AnimatedSprite;
 
   loadScene(): void {
@@ -21,7 +22,9 @@ export default class firstScene extends Scene {
   }
 
   startScene(): void {
-    this.addUILayer("Main");
+    super.startScene();
+
+    this.addLayer("MainUI", 2);
 
     // Center the viewport
     let size = this.viewport.getHalfSize();
@@ -37,29 +40,28 @@ export default class firstScene extends Scene {
     );
 
     // Label for Title
-    let title = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-      position: new Vec2(size.x, size.y - 250),
+    let title = <Label>this.add.uiElement(UIElementType.LABEL, "MainUI", {
+      position: new Vec2(size.x, size.y - 200),
       text: "Eritque Arcus",
     });
     title.textColor = Color.WHITE;
     title.font = "PixelSimple";
-    title.fontSize = 48;
+    title.fontSize = 64;
     title.setHAlign("center");
     title.setVAlign("center");
 
 
     // Label for click anywhere text
-    let continueText = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-      position: new Vec2(size.x, this.viewport.getHalfSize().y * 2 - 30),
+    let continueText = <Label>this.add.uiElement(UIElementType.LABEL, "MainUI", {
+      position: new Vec2(size.x, this.viewport.getHalfSize().y * 2 - 120),
       text: "click anywhere to continue",
     });
     continueText.textColor = Color.WHITE;
     continueText.font = "PixelSimple";
-    continueText.fontSize = 22;
+    continueText.fontSize = 24;
     continueText.setHAlign("center");
     continueText.setVAlign("center");
 
-    
 
     // Scene has started, so start playing music
     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
@@ -74,7 +76,11 @@ export default class firstScene extends Scene {
 
     // Check for mouse click to continue
     if (Input.isMouseJustPressed()) {
+      this.MenuTransitionScreen.tweens.play("fadeIn");
+      let mainTimer = new Timer(500, () => {
         this.sceneManager.changeToScene(MainMenu);
+      });
+      mainTimer.start();
     }
 }
 

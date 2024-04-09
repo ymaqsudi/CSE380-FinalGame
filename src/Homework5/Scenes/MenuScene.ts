@@ -1,9 +1,4 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import MainMenu from "./MainMenu";
@@ -26,13 +21,13 @@ export default class MenuScene extends Scene {
       this.viewport.setFocus(size);
       this.viewport.setZoomLevel(1);
   
-      this.MenuTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "background", {position: new Vec2(size.x, size.y), size: new Vec2(size.x * 2, size.y * 2)});
+      this.MenuTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "background", {position: size.clone(), size: new Vec2(size.x * 10, size.y * 10)});
       this.MenuTransitionScreen.color = Color.BLACK;
       this.MenuTransitionScreen.alpha = 1;
   
-      this.MenuTransitionScreen.tweens.add("fadeIn", {
+      this.MenuTransitionScreen.tweens.add("fadeInToMain", {
           startDelay: 0,
-          duration: 600,
+          duration: 500,
           effects: [
               {
                   property: TweenableProperties.alpha,
@@ -41,12 +36,25 @@ export default class MenuScene extends Scene {
                   ease: EaseFunctionType.IN_OUT_QUAD
               }
           ],
-          onEnd: HW5_Events.MAINMENU
+          onEnd: HW5_Events.TOMAIN
       });
-  
+
+      this.MenuTransitionScreen.tweens.add("fadeIn", {
+        startDelay: 0,
+        duration: 600,
+        effects: [
+            {
+                property: TweenableProperties.alpha,
+                start: 0,
+                end: 1,
+                ease: EaseFunctionType.IN_OUT_QUAD
+            }
+        ],
+      });
+
       this.MenuTransitionScreen.tweens.add("fadeOut", {
           startDelay: 0,
-          duration: 1200,
+          duration: 1000,
           effects: [
               {
                   property: TweenableProperties.alpha,
@@ -56,18 +64,19 @@ export default class MenuScene extends Scene {
               }
           ],
       });
-  
-      this.MenuTransitionScreen.tweens.play("fadeOut");
-  
+    
       this.receiver.subscribe([
-        HW5_Events.MAINMENU
+        HW5_Events.TOMAIN,
       ]);
+      
+      this.MenuTransitionScreen.tweens.play("fadeOut");
+    
     }
   
     updateScene(deltaT: number): void {
-      if(this.receiver.hasNextEvent() && this.receiver.getNextEvent().type === HW5_Events.MAINMENU){
-        this.sceneManager.changeToScene(MainMenu);
-      }
+        if(this.receiver.hasNextEvent() && this.receiver.getNextEvent().type === HW5_Events.TOMAIN){
+            this.sceneManager.changeToScene(MainMenu);
+        }
     }
   }
   
