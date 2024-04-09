@@ -20,6 +20,7 @@ import { HW5_Events } from "../hw5_enums";
 import HW5_ParticleSystem from "../HW5_ParticleSystem";
 import PlayerController from "../Player/PlayerController";
 import MainMenu from "./MainMenu";
+import completedRedLevel from "./completedRedLevel";
 
 // HOMEWORK 5 - TODO
 /**
@@ -33,6 +34,10 @@ export default class GameLevel extends Scene {
     protected playerSpawn: Vec2;
     protected player: AnimatedSprite;
     protected respawnTimer: Timer;
+
+    // Every level will have a key to move onto the next
+    protected key: Vec2;
+    protected keyNumber: number;
 
     // Labels for the UI
     protected static livesCount: number = 3;
@@ -65,8 +70,6 @@ export default class GameLevel extends Scene {
     protected switchesPressed: number;
 
     startScene(): void {
-        this.balloonsPopped = 0;
-        this.switchesPressed = 0;
 
         // Do the game level standard initializations
         this.initLayers();
@@ -125,10 +128,10 @@ export default class GameLevel extends Scene {
 
                         if(node === this.player){
                             // Node is player, other is balloon
-                            this.handlePlayerBalloonCollision(<AnimatedSprite>node, <AnimatedSprite>other);
+                            this.handleKeyCollision(<AnimatedSprite>node, <AnimatedSprite>other);
                         } else {
                             // Other is player, node is balloon
-                            this.handlePlayerBalloonCollision(<AnimatedSprite>other,<AnimatedSprite>node);
+                            this.handleKeyCollision(<AnimatedSprite>other,<AnimatedSprite>node);
 
                         }
                     }
@@ -263,13 +266,6 @@ export default class GameLevel extends Scene {
      */
     protected addUI(){
         // In-game labels
-        this.balloonLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(80, 30), text: "Balloons Left: " + (this.totalBalloons - this.balloonsPopped)});
-        this.balloonLabel.textColor = Color.BLACK
-        this.balloonLabel.font = "PixelSimple";
-
-        this.switchLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(80, 50), text: "Switches Left: " + (this.totalSwitches - this.switchesPressed)});
-        this.switchLabel.textColor = Color.BLACK;
-        this.switchLabel.font = "PixelSimple";
 
         this.livesCountLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(500, 30), text: "Lives: " + GameLevel.livesCount});
         this.livesCountLabel.textColor = Color.BLACK;
@@ -366,56 +362,23 @@ export default class GameLevel extends Scene {
         this.levelEndArea.color = new Color(0, 0, 0, 0);
     }
 
-    // HOMEWORK 5 - TODO
-    /*
-        Make sure balloons are being set up properly to have triggers so that when they collide
-        with players, they send out a trigger event.
-
-        Look at the levelEndArea trigger for reference.
-    */
-    /**
-     * Adds an balloon into the game
-     * @param spriteKey The key of the balloon sprite
-     * @param tilePos The tilemap position to add the balloon to
-     * @param aiOptions The options for the balloon AI
-     */
-    protected addBalloon(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): void {
-        let balloon = this.add.animatedSprite(spriteKey, "primary");
-        balloon.position.set(tilePos.x*32, tilePos.y*32);
-        balloon.scale.set(2, 2);
-        balloon.addPhysics();
-        balloon.addAI(BalloonController, aiOptions);
-        balloon.setGroup("balloon");
-
+    protected addKey(spriteKey: string, tilePos: Vec2, ): void {
+        let key = this.add.animatedSprite(spriteKey, "primary");
+        key.position.set(tilePos.x*32, tilePos.y*32);
+        key.scale.set(.5, .5);
+        key.addPhysics();
+        key.setGroup("key");
+        key.setTrigger("player", HW5_Events.PLAYER_HIT_BALLOON, null);
+        this.keyNumber = 1;
     }
 
-    // HOMEWORK 5 - TODO
-    /**
-     * You must implement this method.
-     * There are 3 types of collisions:
-     * 
-     * 1) Collisions with red balloons
-     * 
-     * 2) Collisions with blue balloons
-     * 
-     * 3) Collisions with green balloons
-     *  
-     * When the player collides with a balloon, you should check the suit color and the balloon color, 
-     * and if they are not the same, damage the player. Otherwise the player is unharmed.
-     * 
-     * In either case you'll also need to pop the balloon and set up elements for the particle system, 
-     * specifically changing the particle system color to the color of the balloon being popped. You'll also
-     * have to use the balloon popping sound you've created and play it here as well.
-     * 
-     * Note that node destruction is handled for you.
-     * 
-     * For those who are curious, there is actually a node.destroy() method.
-     * You no longer have to make the nodes invisible and pretend they don't exist.
-     * You don't have to use this yourself, but you can see examples
-     * of it in this class.
-     * 
-     */
-    protected handlePlayerBalloonCollision(player: AnimatedSprite, balloon: AnimatedSprite) {
+    protected handleKeyCollision(player: AnimatedSprite, key:AnimatedSprite){
+        key.destroy();
+        this.keyNumber = 0;
+        if(this.keyNumber == 0){
+            this.sceneManager.changeToScene(completedRedLevel, {}, {});
+        }
+        
     }
 
     /**

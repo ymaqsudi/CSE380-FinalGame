@@ -1,6 +1,7 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { HW5_Color } from "../hw5_color";
 import GameLevel from "./GameLevel";
 import Level2 from "./Level2";
@@ -18,6 +19,7 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("player", "hw5_assets/spritesheets/main_character.json");
         this.load.spritesheet("red", "hw5_assets/spritesheets/redBalloon.json");
         this.load.spritesheet("blue", "hw5_assets/spritesheets/blueBalloon.json");
+        this.load.spritesheet("redKey", "hw5_assets/spritesheets/RedKey.json");
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
         this.load.audio("switch", "hw5_assets/sounds/switch.wav");
         this.load.audio("player_death", "hw5_assets/sounds/player_death.wav");
@@ -50,8 +52,8 @@ export default class Level1 extends GameLevel {
         this.playerSpawn = new Vec2(5*32, 14*32);
 
         // Set the total switches and balloons in the level
-        this.totalSwitches = 4;
-        this.totalBalloons = 6;
+        //this.totalSwitches = 4;
+       // this.totalBalloons = 6;
 
         // Do generic setup for a GameLevel
         super.startScene();
@@ -60,18 +62,25 @@ export default class Level1 extends GameLevel {
 
         this.nextLevel = Level2;
 
+        this.addKey("redKey", new Vec2(39, 3));
+
         // Add balloons of various types, just red and blue for the first level
-        for(let pos of [new Vec2(18, 8), new Vec2(25, 3), new Vec2(52, 5)]){
+        /*for(let pos of [new Vec2(18, 8), new Vec2(25, 3), new Vec2(52, 5)]){
             this.addBalloon("red", pos, {color: HW5_Color.RED});
         }
 
         for(let pos of [new Vec2(20, 3), new Vec2(41,4), new Vec2(3, 4)]){
             this.addBalloon("blue", pos, {color: HW5_Color.BLUE});
-        }
+        }*/
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
     updateScene(deltaT: number): void {
         super.updateScene(deltaT);
+    }
+
+    protected handleKeyCollision(player: AnimatedSprite, balloon: AnimatedSprite) {
+        // Call the parent class method to handle common collision logic
+        super.handleKeyCollision(player, balloon);
     }
 }
