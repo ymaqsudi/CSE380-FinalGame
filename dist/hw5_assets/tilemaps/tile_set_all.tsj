@@ -1,0 +1,14 @@
+{ "columns":3,
+ "image":"tile_set_all_color.png",
+ "imageheight":304,
+ "imagewidth":48,
+ "margin":0,
+ "name":"tile_set_all",
+ "spacing":0,
+ "tilecount":57,
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}

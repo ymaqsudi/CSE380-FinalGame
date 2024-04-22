@@ -20,7 +20,7 @@ import { HW5_Events } from "../hw5_enums";
 import HW5_ParticleSystem from "../HW5_ParticleSystem";
 import PlayerController from "../Player/PlayerController";
 import MainMenu from "./MainMenu";
-import CompletedRedLevel from "./completedRedLevel";
+import CompletedLevel1 from "./completedLevel1";
 
 // HOMEWORK 5 - TODO
 /**
@@ -202,7 +202,7 @@ export default class GameLevel extends Scene {
                                     // complete red level
                                     this.viewport.follow(null);
                                     Input.enableInput();
-                                    this.sceneManager.changeToScene(CompletedRedLevel);
+                                    this.sceneManager.changeToScene(CompletedLevel1);
                                 }
                             case 2:
                                 {

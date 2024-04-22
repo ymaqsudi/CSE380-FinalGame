@@ -36,6 +36,7 @@ export default class PlayerController extends StateMachineAI {
     MAX_SPEED: number = 300;
     tilemap: OrthogonalTilemap;
     suitColor: HW5_Color;
+    switches: Map<Vec2, boolean> = new Map<Vec2, boolean>();
 
     // HOMEWORK 5 - TODO
     /**
@@ -57,19 +58,6 @@ export default class PlayerController extends StateMachineAI {
         this.suitColor = options.color;
 
         this.receiver.subscribe(HW5_Events.SUIT_COLOR_CHANGE);
-
-        owner.tweens.add("flip", {
-            startDelay: 0,
-            duration: 500,
-            effects: [
-                {
-                    property: "rotation",
-                    start: 0,
-                    end: 2*Math.PI,
-                    ease: EaseFunctionType.IN_OUT_QUAD
-                }
-            ]
-        });
 
     }
 
@@ -125,5 +113,15 @@ export default class PlayerController extends StateMachineAI {
 		} else if(this.currentState instanceof Fall){
             Debug.log("playerstate", "Player State: Fall");
         }
+
+        /*// get tile that the player currently step on
+        let current_step_on = new Vec2(Math.round((this.owner.position.x / 32) - 0.5), Math.round(this.owner.position.y / 32));
+
+        // check if this tile is a switch
+        if(this.tilemap.getTileAtRowCol(current_step_on) == 8 && !this.switches.get(current_step_on)) {
+            this.switches.set(current_step_on, true);
+            // change this switch from "OFF" to "ON"
+            this.tilemap.setTileAtRowCol(current_step_on, 9);
+        }*/
 	}
 }
