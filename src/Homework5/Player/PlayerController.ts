@@ -5,6 +5,7 @@ import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import GameLevel from "../Scenes/GameLevel";
 import { HW5_Color } from "../hw5_color";
 import { HW5_Events } from "../hw5_enums";
 import Fall from "./PlayerStates/Fall";
@@ -114,11 +115,13 @@ export default class PlayerController extends StateMachineAI {
             Debug.log("playerstate", "Player State: Fall");
         }
 
+        let level = (<GameLevel>this.owner.getScene()).getKeyNumber();
+
         /*// get tile that the player currently step on
         let current_step_on = new Vec2(Math.round((this.owner.position.x / 32) - 0.5), Math.round(this.owner.position.y / 32));
 
         // check if this tile is a switch
-        if(this.tilemap.getTileAtRowCol(current_step_on) == 8 && !this.switches.get(current_step_on)) {
+        if(this.tilemap.getTileAtRowCol(current_step_on) == 46 && !this.switches.get(current_step_on)) {
             this.switches.set(current_step_on, true);
             // change this switch from "OFF" to "ON"
             this.tilemap.setTileAtRowCol(current_step_on, 9);

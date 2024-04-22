@@ -5,7 +5,6 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Input from "../../Wolfie2D/Input/Input";
 import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
-import Point from "../../Wolfie2D/Nodes/Graphics/Point";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
@@ -21,6 +20,11 @@ import HW5_ParticleSystem from "../HW5_ParticleSystem";
 import PlayerController from "../Player/PlayerController";
 import MainMenu from "./MainMenu";
 import CompletedLevel1 from "./completedLevel1";
+import CompletedLevel2 from "./completedLevel2";
+import CompletedLevel3 from "./completedLevel3";
+import CompletedLevel4 from "./completedLevel4";
+import CompletedLevel5 from "./completedLevel5";
+import CompletedLevel6 from "./completedLevel6";
 
 // HOMEWORK 5 - TODO
 /**
@@ -70,8 +74,10 @@ export default class GameLevel extends Scene {
     protected switchLabel: Label;
     protected switchesPressed: number;
 
-    protected level: number;
-    
+    getKeyNumber(): number {
+        return this.keyNumber;
+    }
+
     startScene(): void {
 
         // Do the game level standard initializations
@@ -113,18 +119,6 @@ export default class GameLevel extends Scene {
 
 
     updateScene(deltaT: number){
-        let sceneOptions = {
-            physics: {
-                groupNames: ["ground", "player", "balloon"],
-                collisions:
-                [
-                    [0, 1, 1],
-                    [1, 0, 0],
-                    [1, 0, 0]
-                ]
-            },
-            toLevel: 0
-        }
         // Handle events and update the UI if needed
         while(this.receiver.hasNextEvent()){
             let event = this.receiver.getNextEvent();
@@ -139,7 +133,7 @@ export default class GameLevel extends Scene {
                     }
                     break;
 
-                case HW5_Events.PLAYER_HIT_BALLOON:
+                case HW5_Events.PLAYER_HIT_KEY:
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
                         let other = this.sceneGraph.getNode(event.data.get("other"));
@@ -152,29 +146,6 @@ export default class GameLevel extends Scene {
                             this.handleKeyCollision(<AnimatedSprite>other,<AnimatedSprite>node);
 
                         }
-                    }
-                    break;
-
-                case HW5_Events.BALLOON_POPPED:
-                    {
-                        // An balloon collided with the player, destroy it and use the particle system
-                        this.balloonsPopped++;
-                        this.balloonLabel.text = "Balloons Left: " + (this.totalBalloons - this.balloonsPopped);
-                        let node = this.sceneGraph.getNode(event.data.get("owner"));
-                        
-                        // Set mass based on color
-                        let particleMass = 0;
-                        if ((<BalloonController>node._ai).color == HW5_Color.RED) {
-                            particleMass = 1;
-                        }
-                        else if ((<BalloonController>node._ai).color == HW5_Color.GREEN) {
-                            particleMass = 2;
-                        }
-                        else {
-                            particleMass = 3;
-                        }
-                        this.system.startSystem(2000, particleMass, node.position.clone());
-                        node.destroy();
                     }
                     break;
                     
@@ -196,17 +167,54 @@ export default class GameLevel extends Scene {
                 
                 case HW5_Events.LEVEL_END:
                     {
-                        switch(this.level) {
+                        switch(this.keyNumber) {
                             case 1:
                                 {
                                     // complete red level
                                     this.viewport.follow(null);
                                     Input.enableInput();
                                     this.sceneManager.changeToScene(CompletedLevel1);
+                                    break;
                                 }
                             case 2:
                                 {
                                     // complete yellow level
+                                    this.viewport.follow(null);
+                                    Input.enableInput();
+                                    this.sceneManager.changeToScene(CompletedLevel2);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    // complete green level
+                                    this.viewport.follow(null);
+                                    Input.enableInput();
+                                    this.sceneManager.changeToScene(CompletedLevel3);
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    // complete blue level
+                                    this.viewport.follow(null);
+                                    Input.enableInput();
+                                    this.sceneManager.changeToScene(CompletedLevel4);
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    // complete purple level
+                                    this.viewport.follow(null);
+                                    Input.enableInput();
+                                    this.sceneManager.changeToScene(CompletedLevel5);
+                                    break;
+                                }
+                            case 6:
+                                {
+                                    // complete last level
+                                    this.viewport.follow(null);
+                                    Input.enableInput();
+                                    this.sceneManager.changeToScene(CompletedLevel6);
+                                    break;
                                 }
                         }
                         
@@ -221,10 +229,8 @@ export default class GameLevel extends Scene {
             }
         }
 
-        if (this.suitChangeTimer.isStopped()) {
-            if (Input.isKeyJustPressed("c")) {
-                this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
-            }
+        if (Input.isKeyJustPressed("c")) {
+            this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
         }
     }
 
@@ -252,8 +258,7 @@ export default class GameLevel extends Scene {
     protected subscribeToEvents(){
         this.receiver.subscribe([
             HW5_Events.PLAYER_HIT_SWITCH,
-            HW5_Events.PLAYER_HIT_BALLOON,
-            HW5_Events.BALLOON_POPPED,
+            HW5_Events.PLAYER_HIT_KEY,
             HW5_Events.PLAYER_ENTERED_LEVEL_END,
             HW5_Events.LEVEL_START,
             HW5_Events.LEVEL_END,
@@ -368,7 +373,7 @@ export default class GameLevel extends Scene {
         key.scale.set(.5, .5);
         key.addPhysics();
         key.setGroup("key");
-        key.setTrigger("player", HW5_Events.PLAYER_HIT_BALLOON, null);
+        key.setTrigger("player", HW5_Events.PLAYER_HIT_KEY, null);
         this.keyNumber++;
     }
 
