@@ -1,6 +1,6 @@
 {
-    "name": "main_character",
-    "spriteSheetImage": "main_character.png",
+    "name": "main_character_lvl2",
+    "spriteSheetImage": "main_character_lvl2.png",
     "spriteWidth": 16,
     "spriteHeight": 16,
     "columns": 6,

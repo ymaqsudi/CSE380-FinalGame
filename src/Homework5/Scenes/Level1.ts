@@ -15,22 +15,18 @@ export default class Level1 extends GameLevel {
     loadScene(): void {
         // Load resources
         this.load.tilemap("level1", "hw5_assets/tilemaps/level1.json");
-        this.load.tilemap("level0", "hw5_assets/tilemaps/level0.json");
-        this.load.spritesheet("player", "hw5_assets/spritesheets/main_character.json");
-        this.load.spritesheet("red", "hw5_assets/spritesheets/redBalloon.json");
-        this.load.spritesheet("blue", "hw5_assets/spritesheets/blueBalloon.json");
+        this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl1.json");
         this.load.spritesheet("redKey", "hw5_assets/spritesheets/RedKey.json");
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
-        this.load.audio("switch", "hw5_assets/sounds/switch.wav");
-        this.load.audio("player_death", "hw5_assets/sounds/player_death.wav");
         // HOMEWORK 5 - TODO
         // You'll want to change this to your level music
         this.load.audio("level_music", "hw5_assets/music/menu.mp3");
     }
 
     startScene(): void {
+        this.level = 1;
         // Add the level 1 tilemap
-        this.add.tilemap("level0", new Vec2(2, 2));
+        this.add.tilemap("level1", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 64*32, 20*32);
 
         this.playerSpawn = new Vec2(5*32, 14*32);
@@ -57,13 +53,6 @@ export default class Level1 extends GameLevel {
     updateScene(deltaT: number): void {
         super.updateScene(deltaT);
     }
-
-    /*protected handleKeyCollision(player: AnimatedSprite, key: AnimatedSprite) {
-        // Call the parent class method to handle common collision logic
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: false}); // placeholder
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
-        super.handleKeyCollision(player, key);
-    }*/
 
     unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song

@@ -70,6 +70,8 @@ export default class GameLevel extends Scene {
     protected switchLabel: Label;
     protected switchesPressed: number;
 
+    protected level: number;
+    
     startScene(): void {
 
         // Do the game level standard initializations
@@ -111,6 +113,18 @@ export default class GameLevel extends Scene {
 
 
     updateScene(deltaT: number){
+        let sceneOptions = {
+            physics: {
+                groupNames: ["ground", "player", "balloon"],
+                collisions:
+                [
+                    [0, 1, 1],
+                    [1, 0, 0],
+                    [1, 0, 0]
+                ]
+            },
+            toLevel: 0
+        }
         // Handle events and update the UI if needed
         while(this.receiver.hasNextEvent()){
             let event = this.receiver.getNextEvent();
@@ -182,27 +196,20 @@ export default class GameLevel extends Scene {
                 
                 case HW5_Events.LEVEL_END:
                     {
-                        // complete red level
-                        this.viewport.follow(null);
-                        Input.enableInput();
-                        this.sceneManager.changeToScene(CompletedRedLevel);
-                        /*
-                        // Go to the next level
-                        if(this.nextLevel){
-                            let sceneOptions = {
-                                physics: {
-                                    groupNames: ["ground", "player", "balloon"],
-                                    collisions:
-                                    [
-                                        [0, 1, 1],
-                                        [1, 0, 0],
-                                        [1, 0, 0]
-                                    ]
+                        switch(this.level) {
+                            case 1:
+                                {
+                                    // complete red level
+                                    this.viewport.follow(null);
+                                    Input.enableInput();
+                                    this.sceneManager.changeToScene(CompletedRedLevel);
                                 }
-                            }
-                            //this.sceneManager.changeToScene(this.nextLevel, {}, sceneOptions);
+                            case 2:
+                                {
+                                    // complete yellow level
+                                }
                         }
-                        */
+                        
                     }
                     break;
 
@@ -211,27 +218,12 @@ export default class GameLevel extends Scene {
                         this.respawnPlayer();
                     }
                     break;
-
             }
         }
 
-        /**
-         * Pressing 1 switches our suit to RED
-         * Pressing 2 switches our suit to BLUE
-         * Pressing 3 switches our suit to GREEN
-         */
         if (this.suitChangeTimer.isStopped()) {
-            if (Input.isKeyJustPressed("1")) {
+            if (Input.isKeyJustPressed("c")) {
                 this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
-                //this.suitChangeTimer.start();
-            }
-            if (Input.isKeyJustPressed("2")) {
-                this.emitter.fireEvent(HW5_Events.SUIT_COLOR_CHANGE, {color: HW5_Color.BLUE});
-                this.suitChangeTimer.start();
-            }
-            if (Input.isKeyJustPressed("3")) {
-                this.emitter.fireEvent(HW5_Events.SUIT_COLOR_CHANGE, {color: HW5_Color.GREEN});
-                this.suitChangeTimer.start();
             }
         }
     }
@@ -370,7 +362,7 @@ export default class GameLevel extends Scene {
         this.levelEndArea.color = new Color(0, 0, 0, 0);
     }
 
-    protected addKey(spriteKey: string, tilePos: Vec2, ): void {
+    protected addKey(spriteKey: string, tilePos: Vec2): void {
         let key = this.add.animatedSprite(spriteKey, "primary");
         key.position.set(tilePos.x*32, tilePos.y*32);
         key.scale.set(.5, .5);

@@ -7,6 +7,11 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import Level1 from "./Level1";
+import Level2 from "./Level2";
+import Level3 from "./Level3";
+import Level4 from "./Level4";
+import Level5 from "./Level5";
+import Level6 from "./Level6";
 import MenuScene from "./MenuScene";
 
 export default class LevelSelect extends MenuScene {
@@ -68,8 +73,6 @@ export default class LevelSelect extends MenuScene {
     title.setHAlign("center");
     title.setVAlign("center");
 
-    
-
     // Calculate starting pos for first box in top row
     let startX = center.x - spacing;
     let startY = center.y + yOffset;
@@ -116,14 +119,61 @@ export default class LevelSelect extends MenuScene {
 
       // Fill out click events
       levelBtn.onClick = () => {
-        console.log(LevelNames[i] + " clicked");
+        console.log(i + " clicked");
         // Implement scene change
         // for testing
         this.MenuTransitionScreen.tweens.play("fadeIn");
-        let levelStartTimer = new Timer(500, () => {
-          this.sceneManager.changeToScene(Level1, {}, sceneOptions);
-        });
-        levelStartTimer.start();
+        switch(i) {
+          case 0:
+            {
+              let levelStartTimer = new Timer(500, () => {
+                this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+              });
+              levelStartTimer.start();
+              break;
+            }
+          case 1:
+            {
+              let levelStartTimer = new Timer(500, () => {
+                this.sceneManager.changeToScene(Level2, {}, sceneOptions);
+              });
+              levelStartTimer.start();
+              break;
+            }
+          case 2:
+            {
+              let levelStartTimer = new Timer(500, () => {
+                this.sceneManager.changeToScene(Level3, {}, sceneOptions);
+              });
+              levelStartTimer.start();
+              break;
+            }
+          case 3:
+            {
+              let levelStartTimer = new Timer(500, () => {
+                this.sceneManager.changeToScene(Level4, {}, sceneOptions);
+              });
+              levelStartTimer.start();
+              break;
+            }
+          case 4:
+            {
+              let levelStartTimer = new Timer(500, () => {
+                this.sceneManager.changeToScene(Level5, {}, sceneOptions);
+              });
+              levelStartTimer.start();
+              break;
+            }
+          case 5:
+            {
+              let levelStartTimer = new Timer(500, () => {
+                this.sceneManager.changeToScene(Level6, {}, sceneOptions);
+              });
+              levelStartTimer.start();
+              break;
+            }
+        }
+        
       };
     }
 

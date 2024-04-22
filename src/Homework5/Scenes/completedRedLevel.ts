@@ -33,7 +33,7 @@ export default class CompletedRedLevel extends MenuScene {
     backButton.fontSize = 24;
     backButton.size.set(100, 50); // Set the size of the back button
     backButton.borderRadius = 5;
-    backButton.onEnter = () => {backButton.backgroundColor = new Color(255, 255, 255, 0.2);}
+    backButton.onEnter = () => {backButton.backgroundColor = new Color(255, 255, 255, 0.2);};
 
     backButton.onClick = () => {
       this.MenuTransitionScreen.tweens.play("fadeIn");
