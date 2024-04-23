@@ -56,8 +56,6 @@ export default class PlayerController extends StateMachineAI {
 
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
 
-        this.suitColor = options.color;
-
         this.receiver.subscribe(HW5_Events.SUIT_COLOR_CHANGE);
 
     }

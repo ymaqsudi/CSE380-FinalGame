@@ -16,7 +16,7 @@ export default class Level2 extends GameLevel {
 
     startScene(): void {
         this.keyNumber = 2;
-        // Add the level 1 tilemap
+        // Add the level 2 tilemap
         this.add.tilemap("level2", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 64*32, 20*32);
 

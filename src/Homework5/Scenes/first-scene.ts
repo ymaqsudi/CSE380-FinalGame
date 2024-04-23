@@ -78,7 +78,7 @@ export default class firstScene extends MenuScene {
     if (Input.isMouseJustPressed()) {
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let mainTimer = new Timer(500, () => {
-        this.sceneManager.changeToScene(MainMenu);
+        this.sceneManager.changeToScene(MainMenu, {}, {progress: 0});
       });
       mainTimer.start();
     }

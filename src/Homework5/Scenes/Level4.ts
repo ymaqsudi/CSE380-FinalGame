@@ -6,7 +6,7 @@ export default class Level4 extends GameLevel {
     
     loadScene(): void {
         // Load resources
-        this.load.tilemap("level4", "hw5_assets/tilemaps/level1.json");
+        this.load.tilemap("level4", "hw5_assets/tilemaps/level4.json");
         this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl4.json");
         this.load.spritesheet("redKey", "hw5_assets/spritesheets/RedKey.json");
         this.load.spritesheet("yellowKey", "hw5_assets/spritesheets/YellowKey.json");
@@ -18,7 +18,7 @@ export default class Level4 extends GameLevel {
 
     startScene(): void {
         this.keyNumber = 4;
-        // Add the level 1 tilemap
+        // Add the level 4 tilemap
         this.add.tilemap("level4", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 64*32, 20*32);
 

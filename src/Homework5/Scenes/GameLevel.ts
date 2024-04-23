@@ -25,6 +25,7 @@ import CompletedLevel3 from "./completedLevel3";
 import CompletedLevel4 from "./completedLevel4";
 import CompletedLevel5 from "./completedLevel5";
 import CompletedLevel6 from "./completedLevel6";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 // HOMEWORK 5 - TODO
 /**
@@ -74,6 +75,8 @@ export default class GameLevel extends Scene {
     protected switchLabel: Label;
     protected switchesPressed: number;
 
+    protected isPausing: boolean;
+
     getKeyNumber(): number {
         return this.keyNumber;
     }
@@ -88,6 +91,7 @@ export default class GameLevel extends Scene {
         this.addUI();
 
         this.keyNumber = 0;
+        this.isPausing = false;
         // Initialize the timers
         this.respawnTimer = new Timer(1000, () => {
             if(GameLevel.livesCount === 0){
@@ -115,6 +119,8 @@ export default class GameLevel extends Scene {
 
         // stop playing menu music
         this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
+
+        this.getLayer("pauseMenu").disable();
     }
 
 
@@ -146,15 +152,6 @@ export default class GameLevel extends Scene {
                             this.handleKeyCollision(<AnimatedSprite>other,<AnimatedSprite>node);
 
                         }
-                    }
-                    break;
-                    
-                case HW5_Events.PLAYER_ENTERED_LEVEL_END:
-                    {
-                        // The player has reached the end of the level
-                        this.levelEndTimer.start();
-                        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
-                        Input.disableInput();
                     }
                     break;
 
@@ -229,8 +226,21 @@ export default class GameLevel extends Scene {
             }
         }
 
-        if (Input.isKeyJustPressed("c")) {
+        if(Input.isKeyJustPressed("c")) {
             this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
+        }
+
+        if(Input.isKeyJustPressed("escape")) {
+            if(this.isPausing) {
+                this.player.unfreeze();
+                this.getLayer("pauseMenu").disable();
+                this.isPausing = false;
+            }
+            else {
+                this.player.freeze();
+                this.getLayer("pauseMenu").enable();
+                this.isPausing = true;
+            }
         }
     }
 
@@ -239,10 +249,12 @@ export default class GameLevel extends Scene {
      */
     protected initLayers(): void {
         // Add a layer for UI
+        this.addUILayer("pauseMenu");
         this.addUILayer("UI");
 
-        // Add a layer for players and enemies
+        // Add a layer for players
         this.addLayer("primary", 1);
+
     }
 
     /**
@@ -271,37 +283,52 @@ export default class GameLevel extends Scene {
      */
     protected addUI(){
         // In-game labels
+        let size = this.viewport.getHalfSize();
 
-        this.livesCountLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(500, 30), text: "Lives: " + GameLevel.livesCount});
-        this.livesCountLabel.textColor = Color.BLACK;
-        this.livesCountLabel.font = "PixelSimple";
+        let pauseLable = <Label>this.add.uiElement(UIElementType.LABEL, "pauseMenu", {position: new Vec2(size.x, size.y - 100), text: "Game Paused"});
+        pauseLable.textColor = Color.WHITE;
+        pauseLable.font = "PixelSimple";
+        pauseLable.fontSize = 48;
+        pauseLable.setHAlign("center");
+        pauseLable.setVAlign("center");
 
-        // End of level label (start off screen)
-        this.levelEndLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-300, 200), text: "Level Complete"});
-        this.levelEndLabel.size.set(1200, 60);
-        this.levelEndLabel.borderRadius = 0;
-        this.levelEndLabel.backgroundColor = new Color(34, 32, 52);
-        this.levelEndLabel.textColor = Color.WHITE;
-        this.levelEndLabel.fontSize = 48;
-        this.levelEndLabel.font = "PixelSimple";
 
-        // Add a tween to move the label on screen
-        this.levelEndLabel.tweens.add("slideIn", {
-            startDelay: 0,
-            duration: 1000,
-            effects: [
-                {
-                    property: TweenableProperties.posX,
-                    start: -300,
-                    end: 300,
-                    ease: EaseFunctionType.OUT_SINE
-                }
-            ]
-        });
+        let ContBtn = <Button>(
+            this.add.uiElement(UIElementType.BUTTON, "pauseMenu", {
+              position: new Vec2(size.x, size.y - 30),
+              text: "Continue",
+            })
+        );
+        ContBtn.backgroundColor = Color.TRANSPARENT;
+        ContBtn.borderWidth = 2;
+        ContBtn.borderRadius = 5;
+        ContBtn.setPadding(new Vec2(10, 10));
+        ContBtn.font = "PixelSimple";
+        ContBtn.onEnter = () => {ContBtn.backgroundColor = new Color(255, 255, 255, 0.2);};
+        ContBtn.onClick = () => {
+            this.player.unfreeze();
+            this.getLayer("pauseMenu").disable();
+            this.isPausing = false;
+        };
 
-        // Create our particle system and initialize the pool
-        this.system = new HW5_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
-        this.system.initializePool(this, "primary");
+        let BackBtn = <Button>(
+            this.add.uiElement(UIElementType.BUTTON, "pauseMenu", {
+              position: new Vec2(size.x, size.y + 20),
+              text: "Back to Menu",
+            })
+        );
+        BackBtn.backgroundColor = Color.TRANSPARENT;
+        BackBtn.borderWidth = 2;
+        BackBtn.borderRadius = 5;
+        BackBtn.setPadding(new Vec2(10, 10));
+        BackBtn.font = "PixelSimple";
+        BackBtn.onEnter = () => {BackBtn.backgroundColor = new Color(255, 255, 255, 0.2);};
+        BackBtn.onClick = () => {
+            this.getLayer("pauseMenu").disable();
+            this.isPausing = false;
+            this.levelTransitionScreen.tweens.play("fadeIn");
+            this.sceneManager.changeToScene(MainMenu);
+        };
 
         this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(300, 200), size: new Vec2(600, 400)});
         this.levelTransitionScreen.color = Color.BLACK;
@@ -350,7 +377,7 @@ export default class GameLevel extends Scene {
         this.player.position.copy(this.playerSpawn);
         this.player.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 14)));
         this.player.colliderOffset.set(0, 2);
-        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "Main", color: HW5_Color.RED});
+        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "Main"});
 
         this.player.setGroup("player");
 
@@ -409,6 +436,5 @@ export default class GameLevel extends Scene {
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
         this.sceneManager.changeToScene(MainMenu, {});
         Input.enableInput();
-        this.system.stopSystem();
     }
 }

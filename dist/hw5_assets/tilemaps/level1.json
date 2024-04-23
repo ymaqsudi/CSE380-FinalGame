@@ -90,11 +90,11 @@
         {
          "columns":3,
          "firstgid":1,
-         "image":"tile_set.png",
+         "image":"tile_set_lvl1.png",
          "imageheight":80,
          "imagewidth":48,
          "margin":0,
-         "name":"tile_set",
+         "name":"tile_set_lvl1",
          "spacing":0,
          "tilecount":15,
          "tileheight":16,
