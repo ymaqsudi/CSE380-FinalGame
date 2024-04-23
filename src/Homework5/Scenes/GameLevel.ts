@@ -76,13 +76,14 @@ export default class GameLevel extends Scene {
     protected switchesPressed: number;
 
     protected isPausing: boolean;
+    protected Level: number;
 
-    getKeyNumber(): number {
-        return this.keyNumber;
+    getLevel(): number {
+        return this.Level;
     }
 
     startScene(): void {
-
+        this.keyNumber = 0;
         // Do the game level standard initializations
         this.initLayers();
         this.initViewport();
@@ -90,7 +91,6 @@ export default class GameLevel extends Scene {
         this.subscribeToEvents();
         this.addUI();
 
-        this.keyNumber = 0;
         this.isPausing = false;
         // Initialize the timers
         this.respawnTimer = new Timer(1000, () => {
@@ -161,10 +161,20 @@ export default class GameLevel extends Scene {
                         Input.enableInput();
                     }
                     break;
+
+                case HW5_Events.PLAYER_ENTERED_LEVEL_END:
+                    {
+                        // The player has reached the end of the level
+                        this.levelEndTimer.start();
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
+                        Input.disableInput();
+                    }
+                    break;
                 
                 case HW5_Events.LEVEL_END:
                     {
-                        switch(this.keyNumber) {
+                        console.log(this.getLevel());
+                        switch(this.getLevel()) {
                             case 1:
                                 {
                                     // complete red level
@@ -207,6 +217,7 @@ export default class GameLevel extends Scene {
                                 }
                             case 6:
                                 {
+                                    console.log("yay");
                                     // complete last level
                                     this.viewport.follow(null);
                                     Input.enableInput();
@@ -327,6 +338,7 @@ export default class GameLevel extends Scene {
             this.getLayer("pauseMenu").disable();
             this.isPausing = false;
             this.levelTransitionScreen.tweens.play("fadeIn");
+            this.viewport.follow(null);
             this.sceneManager.changeToScene(MainMenu);
         };
 
@@ -408,6 +420,7 @@ export default class GameLevel extends Scene {
 		this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "collection", loop: false, holdReference: false});
         key.destroy();
         this.keyNumber--;
+        console.log(this.keyNumber);
         if(this.keyNumber === 0){
             this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
         }

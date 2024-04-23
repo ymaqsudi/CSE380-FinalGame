@@ -113,7 +113,7 @@ export default class PlayerController extends StateMachineAI {
             Debug.log("playerstate", "Player State: Fall");
         }
 
-        let level = (<GameLevel>this.owner.getScene()).getKeyNumber();
+        let level = (<GameLevel>this.owner.getScene()).getLevel();
 
         /*// get tile that the player currently step on
         let current_step_on = new Vec2(Math.round((this.owner.position.x / 32) - 0.5), Math.round(this.owner.position.y / 32));

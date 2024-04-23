@@ -50,69 +50,69 @@ export default class CompletedLevel6 extends MenuScene {
     });
     title.textColor = Color.WHITE;
     title.font = "PixelSimple";
-    title.fontSize = 48;
+    title.fontSize = 50;
     title.setHAlign("center");
     title.setVAlign("center");
 
     let text1 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-        position: new Vec2(size.x, size.y),
+        position: new Vec2(size.x, size.y - 40),
         text: "The World is Filled With So Much",
       });
       text1.textColor = Color.WHITE;
       text1.font = "PixelSimple";
-      text1.fontSize = 22;
+      text1.fontSize = 25;
       text1.setHAlign("center");
       text1.setVAlign("center");
 
     let text2 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-        position: new Vec2(size.x, size.y + 25),
+        position: new Vec2(size.x - 100, size.y + 20),
         text: "C",
       });
       text2.textColor = Color.RED;
       text2.font = "PixelSimple";
-      text2.fontSize = 22;
+      text2.fontSize = 50;
       text2.setHAlign("center");
       text2.setVAlign("center");
 
     let text3 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-        position: new Vec2(size.x, size.y + 50),
+        position: new Vec2(size.x - 50, size.y + 20),
         text: "O",
       });
       text3.textColor = Color.YELLOW;
       text3.font = "PixelSimple";
-      text3.fontSize = 22;
+      text3.fontSize = 50;
       text3.setHAlign("center");
       text3.setVAlign("center");
 
       let text4 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-        position: new Vec2(size.x, size.y + 50),
+        position: new Vec2(size.x, size.y + 20),
         text: "L",
       });
       text4.textColor = Color.GREEN;
       text4.font = "PixelSimple";
-      text4.fontSize = 22;
+      text4.fontSize = 50;
       text4.setHAlign("center");
       text4.setVAlign("center");
 
       let text5 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-        position: new Vec2(size.x, size.y + 50),
+        position: new Vec2(size.x + 50, size.y + 20),
         text: "O",
       });
-      text3.textColor = Color.BLUE;
-      text3.font = "PixelSimple";
-      text3.fontSize = 22;
-      text3.setHAlign("center");
-      text3.setVAlign("center");
+      text5.textColor = Color.BLUE;
+      text5.font = "PixelSimple";
+      text5.fontSize = 50;
+      text5.setHAlign("center");
+      text5.setVAlign("center");
 
       let text6 = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
-        position: new Vec2(size.x, size.y + 50),
+        position: new Vec2(size.x + 100, size.y + 20),
         text: "R",
       });
-      text3.textColor = Color.fromStringHex("#4b369d");
-      text3.font = "PixelSimple";
-      text3.fontSize = 22;
-      text3.setHAlign("center");
-      text3.setVAlign("center");
+      text6.textColor = Color.fromStringHex("#4b369d");
+      text6.font = "PixelSimple";
+      text6.fontSize = 50;
+      text6.setHAlign("center");
+      text6.setVAlign("center");
 
 
     // Scene has started, so start playing music
