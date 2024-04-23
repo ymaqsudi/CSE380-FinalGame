@@ -82,6 +82,10 @@ export default class GameLevel extends Scene {
         return this.Level;
     }
 
+    getPlayerSpawn(): Vec2 {
+        return this.playerSpawn;
+    }
+
     startScene(): void {
         this.keyNumber = 0;
         // Do the game level standard initializations
@@ -389,7 +393,7 @@ export default class GameLevel extends Scene {
         this.player.position.copy(this.playerSpawn);
         this.player.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 14)));
         this.player.colliderOffset.set(0, 2);
-        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "Main"});
+        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "walls"});
 
         this.player.setGroup("player");
 

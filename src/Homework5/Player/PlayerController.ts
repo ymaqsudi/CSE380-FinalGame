@@ -6,6 +6,7 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import GameLevel from "../Scenes/GameLevel";
+import Level6 from "../Scenes/Level6";
 import { HW5_Color } from "../hw5_color";
 import { HW5_Events } from "../hw5_enums";
 import Fall from "./PlayerStates/Fall";
@@ -55,8 +56,6 @@ export default class PlayerController extends StateMachineAI {
         this.initializePlatformer();
 
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
-
-        this.receiver.subscribe(HW5_Events.SUIT_COLOR_CHANGE);
 
     }
 
@@ -113,16 +112,50 @@ export default class PlayerController extends StateMachineAI {
             Debug.log("playerstate", "Player State: Fall");
         }
 
+
+        if(this.owner.positionY > 20 * 16) {
+            let respawn: Vec2 = (<GameLevel>this.owner.getScene()).getPlayerSpawn();
+            this.owner.position.copy(respawn);
+        }
+
         let level = (<GameLevel>this.owner.getScene()).getLevel();
+        if(level === 6) {
+            // get tile that the player currently step on
+            let current_step_on = new Vec2(Math.round((this.owner.position.x / 32) - 0.5), Math.round(this.owner.position.y / 32));
 
-        /*// get tile that the player currently step on
-        let current_step_on = new Vec2(Math.round((this.owner.position.x / 32) - 0.5), Math.round(this.owner.position.y / 32));
+            // check if this tile is a switch
+            if(current_step_on.equals(new Vec2(24, 8)) || current_step_on.equals(new Vec2(23, 8))) {
+                (<Level6>this.owner.getScene()).bloom = true;
 
-        // check if this tile is a switch
-        if(this.tilemap.getTileAtRowCol(current_step_on) == 46 && !this.switches.get(current_step_on)) {
-            this.switches.set(current_step_on, true);
-            // change this switch from "OFF" to "ON"
-            this.tilemap.setTileAtRowCol(current_step_on, 9);
-        }*/
+                let purple_set: Array<Vec2> = [];
+                purple_set.push(new Vec2(29, 12));
+                purple_set.push(new Vec2(30, 12));
+                purple_set.push(new Vec2(31, 11));
+                purple_set.push(new Vec2(32, 11));
+                purple_set.push(new Vec2(33, 11));
+                for(let i = 0; i < 8; i++) {
+                    purple_set.push(new Vec2(34 + i, 10));
+                }
+                purple_set.push(new Vec2(45, 12));
+                purple_set.push(new Vec2(46, 12));
+                purple_set.push(new Vec2(42, 11));
+                purple_set.push(new Vec2(43, 11));
+                purple_set.push(new Vec2(44, 11));
+                for(let block of purple_set) {
+                    this.tilemap.setTileAtRowCol(block, 50);
+                    this.tilemap.setTileAtRowCol(new Vec2(block.x, block.y -1), 41);
+                    this.tilemap.setTileAtRowCol(new Vec2(block.x, block.y -2), 32);
+                    this.tilemap.setTileAtRowCol(new Vec2(block.x, block.y -3), 23);
+                    this.tilemap.setTileAtRowCol(new Vec2(block.x, block.y -4), 14);
+                }
+                this.tilemap.setTileAtRowCol(new Vec2(27, 9), 23);
+                this.tilemap.setTileAtRowCol(new Vec2(28, 9), 23);
+                this.tilemap.setTileAtRowCol(new Vec2(47, 9), 23);
+                this.tilemap.setTileAtRowCol(new Vec2(48, 9), 23);
+                this.tilemap.setTileAtRowCol(new Vec2(28, 10), 32);
+                this.tilemap.setTileAtRowCol(new Vec2(47, 10), 32);
+            }
+        }
+        
 	}
 }
