@@ -30,7 +30,7 @@ export default class Level5 extends GameLevel {
 
         this.addLevelEnd(new Vec2(60, 13), new Vec2(5, 5));
 
-        this.addKey("purpleKey", new Vec2(39, 3));
+        this.addKey("purpleKey", new Vec2(40, 2));
 
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
