@@ -6,7 +6,7 @@ export default class Level3 extends GameLevel {
     
     loadScene(): void {
         // Load resources
-        this.load.tilemap("level3", "hw5_assets/tilemaps/level1.json");
+        this.load.tilemap("level3", "hw5_assets/tilemaps/level3.json");
         this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl3.json");
         this.load.spritesheet("redKey", "hw5_assets/spritesheets/RedKey.json");
         this.load.spritesheet("yellowKey", "hw5_assets/spritesheets/YellowKey.json");
@@ -28,7 +28,7 @@ export default class Level3 extends GameLevel {
 
         this.addLevelEnd(new Vec2(60, 13), new Vec2(5, 5));
 
-        this.addKey("greenKey", new Vec2(39, 3));
+        this.addKey("greenKey", new Vec2(50, 10));
 
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
