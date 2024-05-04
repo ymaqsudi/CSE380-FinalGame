@@ -43,7 +43,7 @@ export default class GameLevel extends Scene {
 
     // Every level will have a key to move onto the next
     protected key: Vec2;
-    protected keyNumber: number;
+    keyNumber: number;
 
     // Labels for the UI
     protected static livesCount: number = 3;
@@ -177,7 +177,6 @@ export default class GameLevel extends Scene {
                 
                 case HW5_Events.LEVEL_END:
                     {
-                        console.log(this.getLevel());
                         switch(this.getLevel()) {
                             case 1:
                                 {
@@ -221,7 +220,6 @@ export default class GameLevel extends Scene {
                                 }
                             case 6:
                                 {
-                                    console.log("yay");
                                     // complete last level
                                     this.viewport.follow(null);
                                     Input.enableInput();
@@ -417,6 +415,7 @@ export default class GameLevel extends Scene {
         key.addPhysics();
         key.setGroup("key");
         key.setTrigger("player", HW5_Events.PLAYER_HIT_KEY, null);
+        key.animation.play("IDLE", true);
         this.keyNumber++;
     }
 
@@ -424,7 +423,6 @@ export default class GameLevel extends Scene {
 		this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "collection", loop: false, holdReference: false});
         key.destroy();
         this.keyNumber--;
-        console.log(this.keyNumber);
         if(this.keyNumber === 0){
             this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
         }

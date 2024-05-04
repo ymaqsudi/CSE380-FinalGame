@@ -119,7 +119,6 @@ export default class LevelSelect extends MenuScene {
 
       // Fill out click events
       levelBtn.onClick = () => {
-        console.log(i + " clicked");
         // Implement scene change
         // for testing
         this.MenuTransitionScreen.tweens.play("fadeIn");
