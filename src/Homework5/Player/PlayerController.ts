@@ -161,8 +161,8 @@ export default class PlayerController extends StateMachineAI {
                 setTimeout(() => {
                     this.tilemap.setTileAtRowCol(new Vec2(28, 9), 23);
                     this.tilemap.setTileAtRowCol(new Vec2(28, 10), 32);
-                }, 200);
-                let i = 200;
+                }, 120);
+                let i = 120;
                 setTimeout(() => {
                     for(let block of rainbow_set) {
                         setTimeout(() => {
@@ -172,7 +172,7 @@ export default class PlayerController extends StateMachineAI {
                             this.tilemap.setTileAtRowCol(new Vec2(block.x, block.y -3), 23);
                             this.tilemap.setTileAtRowCol(new Vec2(block.x, block.y -4), 14);
                         }, i);
-                        i += 200;
+                        i += 120;
                     }
                     setTimeout(() => {
                         this.tilemap.setTileAtRowCol(new Vec2(47, 9), 23);
@@ -180,8 +180,8 @@ export default class PlayerController extends StateMachineAI {
                     }, i);
                     setTimeout(() => {
                         this.tilemap.setTileAtRowCol(new Vec2(48, 9), 23);
-                    }, i + 200);
-                }, 200);
+                    }, i + 120);
+                }, 120);
             }
         }
         

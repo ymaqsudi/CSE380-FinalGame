@@ -15,6 +15,7 @@ export default class Level6 extends GameLevel {
         this.load.spritesheet("blueKey", "hw5_assets/spritesheets/BlueKey.json");
         this.load.spritesheet("purpleKey", "hw5_assets/spritesheets/PurpleKey.json");
         this.load.spritesheet("colorKey", "hw5_assets/spritesheets/ColorKey.json");
+        this.load.spritesheet("Crown", "hw5_assets/spritesheets/crown.json");
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
         this.load.audio("level_music", "hw5_assets/music/menu.mp3");
     }
@@ -31,7 +32,7 @@ export default class Level6 extends GameLevel {
         // Do generic setup for a GameLevel
         super.startScene();
 
-        this.addKey("colorKey", new Vec2(57, 3));
+        this.addKey("Crown", new Vec2(57, 2));
         this.addKey("colorKey", new Vec2(26, 8));
 
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});

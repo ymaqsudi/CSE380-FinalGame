@@ -412,6 +412,9 @@ export default class GameLevel extends Scene {
         let key = this.add.animatedSprite(spriteKey, "primary");
         key.position.set(tilePos.x*32, tilePos.y*32);
         key.scale.set(.5, .5);
+        if(spriteKey === "Crown") {
+            key.scale.set(0.1, 0.1);
+        }
         key.addPhysics();
         key.setGroup("key");
         key.setTrigger("player", HW5_Events.PLAYER_HIT_KEY, null);
@@ -424,6 +427,7 @@ export default class GameLevel extends Scene {
         key.destroy();
         this.keyNumber--;
         if(this.keyNumber === 0){
+            this.player.freeze();
             this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
         }
     }
