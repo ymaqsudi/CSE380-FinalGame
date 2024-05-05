@@ -74,7 +74,7 @@ export default class firstScene extends MenuScene {
       this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let mainTimer = new Timer(500, () => {
-        this.sceneManager.changeToScene(MainMenu, {}, {progress: 6});
+        this.sceneManager.changeToScene(MainMenu, {}, {progress: 0});
       });
       mainTimer.start();
     }
