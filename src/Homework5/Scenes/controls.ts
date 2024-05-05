@@ -120,7 +120,7 @@ export default class ControlsScene extends MenuScene {
     // Interact Label
     let interact = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
       position: new Vec2(size.x - 100, size.y + 200),
-      text: "Interact",
+      text: "Cheat Code: Complete Level",
     });
     interact.textColor = Color.WHITE;
     interact.font = "PixelSimple";
@@ -131,7 +131,7 @@ export default class ControlsScene extends MenuScene {
     // interact Label
     let f = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {
       position: new Vec2(size.x + 100, size.y + 200),
-      text: "F",
+      text: "C",
     });
     f.textColor = Color.WHITE;
     f.font = "PixelSimple";

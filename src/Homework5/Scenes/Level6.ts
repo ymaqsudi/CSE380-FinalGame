@@ -23,6 +23,9 @@ export default class Level6 extends GameLevel {
         this.add.tilemap("level6", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 64*32, 20*32);
 
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_complete"});
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
+
         this.playerSpawn = new Vec2(4*32, 4*32);
 
         // Do generic setup for a GameLevel
@@ -30,8 +33,6 @@ export default class Level6 extends GameLevel {
 
         this.addKey("Crown", new Vec2(57, 2));
         this.addKey("colorKey", new Vec2(26, 8));
-
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
     updateScene(deltaT: number): void {

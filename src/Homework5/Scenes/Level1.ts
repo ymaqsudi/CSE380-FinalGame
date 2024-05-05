@@ -22,13 +22,14 @@ export default class Level1 extends GameLevel {
         this.viewport.setBounds(0, 0, 64*32, 20*32);
 
         this.playerSpawn = new Vec2(5*32, 14*32);
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_complete"});
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
 
         // Do generic setup for a GameLevel
         super.startScene();
 
         this.addKey("redKey", new Vec2(39, 3));
 
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
     updateScene(deltaT: number): void {

@@ -325,7 +325,7 @@ export default class GameLevel extends Scene {
             this.isPausing = false;
             this.levelTransitionScreen.tweens.play("fadeIn");
             this.viewport.follow(null);
-            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: this.progress === 6 ? "level_complete" : "menu", loop: true, holdReference: true,});
             this.sceneManager.changeToScene(MainMenu, {}, {progress: this.progress});
         };
 
