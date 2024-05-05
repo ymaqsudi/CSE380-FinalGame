@@ -63,9 +63,6 @@ export default class firstScene extends MenuScene {
     continueText.setHAlign("center");
     continueText.setVAlign("center");
 
-
-    // Scene has started, so start playing music
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
   }
 
   updateScene(deltaT: number): void {
@@ -73,6 +70,8 @@ export default class firstScene extends MenuScene {
 
     // Check for mouse click to continue
     if (Input.isMouseJustPressed()) {
+      // Scene has started, so start playing music
+      this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let mainTimer = new Timer(500, () => {
         this.sceneManager.changeToScene(MainMenu, {}, {progress: 0});
