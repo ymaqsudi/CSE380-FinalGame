@@ -38,6 +38,7 @@ export default class firstScene extends MenuScene {
       (this.viewport.getHalfSize().x / background.size.x) * 2,
       (this.viewport.getHalfSize().y / background.size.y) * 2
     );
+    
 
     // Label for Title
     let title = <Label>this.add.uiElement(UIElementType.LABEL, "MainUI", {
@@ -84,6 +85,7 @@ export default class firstScene extends MenuScene {
     // The scene is being destroyed, so we can stop playing the song
     // this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
     this.load.keepImage("introBackground");
+    this.load.keepImage("introBackground_complete");
     this.load.keepAudio("menu");
   }
 }

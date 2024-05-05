@@ -1,5 +1,7 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
@@ -19,6 +21,7 @@ export default class LevelSelect extends MenuScene {
 
   loadScene(): void {
     this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
+    this.load.image("introBackground_complete", "hw5_assets/img/complete_background.jpg");
   }
 
   startScene(): void {
@@ -28,6 +31,29 @@ export default class LevelSelect extends MenuScene {
     let size = this.viewport.getHalfSize();
     this.viewport.setFocus(size);
     this.viewport.setZoomLevel(1);
+    this.addLayer("main_background", 0);
+    this.addLayer("main_background2", 0.5);
+
+    // Display background image
+    if(this.progress !== 6) {
+      let background = this.add.sprite("introBackground", "main_background");
+      background.position.set(size.x, size.y);
+      background.scale.set(
+        (this.viewport.getHalfSize().x / background.size.x) * 2,
+        (this.viewport.getHalfSize().y / background.size.y) * 2
+      );
+    }
+    else {
+      let background = this.add.sprite("introBackground_complete", "main_background");
+      background.position.set(size.x, size.y);
+      background.scale.set(
+        (this.viewport.getHalfSize().x / background.size.x) * 2,
+        (this.viewport.getHalfSize().y / background.size.y) * 2
+      );
+    }
+
+    let rect = <Rect>this.add.graphic(GraphicType.RECT, "main_background2", {position: size, size: new Vec2(600, 600)});
+    rect.color = new Color(0, 0, 0, 0.67);
 
     // Back button
     let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {
@@ -81,7 +107,7 @@ export default class LevelSelect extends MenuScene {
     let startX = center.x - spacing;
     let startY = center.y + yOffset;
 
-    for (let i = 0; i < this.progress + 1; i++) {
+    for (let i = 0; i < (this.progress === 6 ? 6 : this.progress + 1); i++) {
       // Calculate position for each box
       let posX = startX + (i % 3) * spacing; // Move each box to the right
       let posY = startY + Math.floor(i / 3) * (boxHeight + labelOffset * 1.5); // Adjusted calculation for posY
@@ -92,7 +118,6 @@ export default class LevelSelect extends MenuScene {
         text: "",
         size: new Vec2(boxWidth, boxHeight),
       });
-      levelBtn.backgroundColor = new Color(67, 67, 67);
       levelBtn.borderColor = Color.WHITE;
       levelBtn.borderRadius = 5;
       levelBtn.setPadding(new Vec2(50, 10));
@@ -108,6 +133,39 @@ export default class LevelSelect extends MenuScene {
       levelLabel.setHAlign("center");
       levelLabel.setVAlign("center");
 
+      switch(i) {
+        case 0:
+          {
+            levelBtn.backgroundColor = new Color(67, 67, 67);
+            break;
+          }
+        case 1:
+          {
+            levelBtn.backgroundColor = new Color(255, 0, 0);
+            break;
+          }
+        case 2:
+          {
+            levelBtn.backgroundColor = new Color(255, 255, 0);
+            break;
+          }
+        case 3:
+          {
+            levelBtn.backgroundColor = new Color(0, 255, 0);
+            break;
+          }
+        case 4:
+          {
+            levelBtn.backgroundColor = new Color(0, 0, 255);
+            break;
+          }
+        case 5:
+          {
+            levelBtn.backgroundColor = new Color(255, 0, 255);
+            break;
+          }
+      }
+
       // set up scene options
       let sceneOptions = {
         physics: {
@@ -122,6 +180,7 @@ export default class LevelSelect extends MenuScene {
         progress: this.progress
     }
 
+
       // Fill out click events
       levelBtn.onClick = () => {
         // Implement scene change
@@ -131,6 +190,7 @@ export default class LevelSelect extends MenuScene {
           case 0:
             {
               let levelStartTimer = new Timer(500, () => {
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
                 this.sceneManager.changeToScene(Level1, {}, sceneOptions);
               });
               levelStartTimer.start();
@@ -139,6 +199,7 @@ export default class LevelSelect extends MenuScene {
           case 1:
             {
               let levelStartTimer = new Timer(500, () => {
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
                 this.sceneManager.changeToScene(Level2, {}, sceneOptions);
               });
               levelStartTimer.start();
@@ -147,6 +208,7 @@ export default class LevelSelect extends MenuScene {
           case 2:
             {
               let levelStartTimer = new Timer(500, () => {
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
                 this.sceneManager.changeToScene(Level3, {}, sceneOptions);
               });
               levelStartTimer.start();
@@ -155,6 +217,7 @@ export default class LevelSelect extends MenuScene {
           case 3:
             {
               let levelStartTimer = new Timer(500, () => {
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
                 this.sceneManager.changeToScene(Level4, {}, sceneOptions);
               });
               levelStartTimer.start();
@@ -163,6 +226,7 @@ export default class LevelSelect extends MenuScene {
           case 4:
             {
               let levelStartTimer = new Timer(500, () => {
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
                 this.sceneManager.changeToScene(Level5, {}, sceneOptions);
               });
               levelStartTimer.start();
@@ -171,6 +235,7 @@ export default class LevelSelect extends MenuScene {
           case 5:
             {
               let levelStartTimer = new Timer(500, () => {
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
                 this.sceneManager.changeToScene(Level6, {}, sceneOptions);
               });
               levelStartTimer.start();
@@ -188,6 +253,5 @@ export default class LevelSelect extends MenuScene {
   }
 
   unloadScene(): void {
-    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
   }
 }

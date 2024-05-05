@@ -1,4 +1,6 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
@@ -16,6 +18,29 @@ export default class AboutScene extends MenuScene {
     let size = this.viewport.getHalfSize();
     this.viewport.setFocus(size);
     this.viewport.setZoomLevel(1);
+    this.addLayer("main_background", 0);
+    this.addLayer("main_background2", 0.5);
+
+    // Display background image
+    if(this.progress !== 6) {
+      let background = this.add.sprite("introBackground", "main_background");
+      background.position.set(size.x, size.y);
+      background.scale.set(
+        (this.viewport.getHalfSize().x / background.size.x) * 2,
+        (this.viewport.getHalfSize().y / background.size.y) * 2
+      );
+    }
+    else {
+      let background = this.add.sprite("introBackground_complete", "main_background");
+      background.position.set(size.x, size.y);
+      background.scale.set(
+        (this.viewport.getHalfSize().x / background.size.x) * 2,
+        (this.viewport.getHalfSize().y / background.size.y) * 2
+      );
+    }
+
+    let rect = <Rect>this.add.graphic(GraphicType.RECT, "main_background2", {position: size, size: new Vec2(800, 600)});
+    rect.color = new Color(0, 0, 0, 0.67);
 
     // Back button
     let backButton = <Button>this.add.uiElement(UIElementType.BUTTON, "Main", {

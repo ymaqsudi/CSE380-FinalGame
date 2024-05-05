@@ -16,10 +16,14 @@ import LevelSelect from "./level-select";
 export default class MainMenu extends MenuScene {
   animatedSprite: AnimatedSprite;
 
+  loadScene(): void {
+    this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
+    this.load.image("introBackground_complete", "hw5_assets/img/complete_background.jpg");
+  }
+
   startScene(): void {
     super.startScene();
     this.addLayer("MainUI", 2);
-    let background = this.add.sprite("introBackground", "Main");
 
     // Center the viewport
     let size = this.viewport.getHalfSize();
@@ -27,11 +31,22 @@ export default class MainMenu extends MenuScene {
     this.viewport.setZoomLevel(1);
 
     // Display background image
-    background.position.set(size.x, size.y);
-    background.scale.set(
-      (this.viewport.getHalfSize().x / background.size.x) * 2,
-      (this.viewport.getHalfSize().y / background.size.y) * 2
-    );
+    if(this.progress !== 6) {
+      let background = this.add.sprite("introBackground", "Main");
+      background.position.set(size.x, size.y);
+      background.scale.set(
+        (this.viewport.getHalfSize().x / background.size.x) * 2,
+        (this.viewport.getHalfSize().y / background.size.y) * 2
+      );
+    }
+    else {
+      let background = this.add.sprite("introBackground_complete", "Main");
+      background.position.set(size.x, size.y);
+      background.scale.set(
+        (this.viewport.getHalfSize().x / background.size.x) * 2,
+        (this.viewport.getHalfSize().y / background.size.y) * 2
+      );
+    }
 
     // Main Title Label
     let title = <Label>(
@@ -67,12 +82,11 @@ export default class MainMenu extends MenuScene {
         text: "play",
       })
     );
-    playBtn.backgroundColor = Color.TRANSPARENT;
+    playBtn.backgroundColor = new Color(0, 0, 0, 0.67);
     playBtn.borderColor = Color.WHITE;
     playBtn.borderRadius = 0;
     playBtn.setPadding(new Vec2(50, 10));
     playBtn.font = "PixelSimple";
-    playBtn.onEnter = () => {playBtn.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     // Create about button
     let aboutBtn = <Button>(
@@ -81,12 +95,11 @@ export default class MainMenu extends MenuScene {
         text: "about",
       })
     );
-    aboutBtn.backgroundColor = Color.TRANSPARENT;
+    aboutBtn.backgroundColor = new Color(0, 0, 0, 0.67);
     aboutBtn.borderColor = Color.WHITE;
     aboutBtn.borderRadius = 0;
     aboutBtn.setPadding(new Vec2(50, 10));
     aboutBtn.font = "PixelSimple";
-    aboutBtn.onEnter = () => {aboutBtn.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     // Create controls button
     let controlsBtn = <Button>(
@@ -95,12 +108,11 @@ export default class MainMenu extends MenuScene {
         text: "controls",
       })
     );
-    controlsBtn.backgroundColor = Color.TRANSPARENT;
+    controlsBtn.backgroundColor = new Color(0, 0, 0, 0.67);
     controlsBtn.borderColor = Color.WHITE;
     controlsBtn.borderRadius = 0;
     controlsBtn.setPadding(new Vec2(50, 10));
     controlsBtn.font = "PixelSimple";
-    controlsBtn.onEnter = () => {controlsBtn.backgroundColor = new Color(255, 255, 255, 0.2);}
 
     // When the play button is clicked, go to the next scene
     playBtn.onClick = () => {

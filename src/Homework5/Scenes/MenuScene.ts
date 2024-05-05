@@ -15,6 +15,7 @@ export default class MenuScene extends Scene {
 
     loadScene(): void {
         this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
+        this.load.image("introBackground_complete", "hw5_assets/img/complete_background.jpg");
     }
   
     startScene(): void {
@@ -85,7 +86,7 @@ export default class MenuScene extends Scene {
     }
 
     unloadScene(): void {
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
+        this.load.keepImage("introBackground_complete");
     }
   }
   
