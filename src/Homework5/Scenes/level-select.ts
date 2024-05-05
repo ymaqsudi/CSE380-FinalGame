@@ -17,6 +17,10 @@ import MenuScene from "./MenuScene";
 export default class LevelSelect extends MenuScene {
   animatedSprite: AnimatedSprite;
 
+  loadScene(): void {
+    this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
+  }
+
   startScene(): void {
     super.startScene();
 
@@ -77,7 +81,7 @@ export default class LevelSelect extends MenuScene {
     let startX = center.x - spacing;
     let startY = center.y + yOffset;
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < this.progress + 1; i++) {
       // Calculate position for each box
       let posX = startX + (i % 3) * spacing; // Move each box to the right
       let posY = startY + Math.floor(i / 3) * (boxHeight + labelOffset * 1.5); // Adjusted calculation for posY
@@ -114,7 +118,8 @@ export default class LevelSelect extends MenuScene {
                 [1, 0, 0],
                 [1, 0, 0]
             ]
-        }
+        },
+        progress: this.progress
     }
 
       // Fill out click events
@@ -180,5 +185,9 @@ export default class LevelSelect extends MenuScene {
 
   updateScene(deltaT: number): void {
     super.updateScene(deltaT);
+  }
+
+  unloadScene(): void {
+    this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
   }
 }

@@ -40,7 +40,7 @@ export default class CompletedLevel4 extends MenuScene {
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let selectTimer = new Timer(500, () => {
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
-        this.sceneManager.changeToScene(LevelSelect);
+        this.sceneManager.changeToScene(LevelSelect, {}, {progress: this.progress > 4 ? this.progress : 4});
       });
       selectTimer.start();
   };

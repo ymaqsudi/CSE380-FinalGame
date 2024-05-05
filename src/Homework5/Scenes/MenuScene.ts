@@ -80,7 +80,7 @@ export default class MenuScene extends Scene {
   
     updateScene(deltaT: number): void {
         if(this.receiver.hasNextEvent() && this.receiver.getNextEvent().type === HW5_Events.TOMAIN){
-            this.sceneManager.changeToScene(MainMenu);
+            this.sceneManager.changeToScene(MainMenu, {}, {progress: this.progress});
         }
     }
 

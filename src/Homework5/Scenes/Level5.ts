@@ -8,13 +8,11 @@ export default class Level5 extends GameLevel {
         // Load resources
         this.load.tilemap("level5", "hw5_assets/tilemaps/level5.json");
         this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl5.json");
-        this.load.spritesheet("redKey", "hw5_assets/spritesheets/RedKey.json");
-        this.load.spritesheet("yellowKey", "hw5_assets/spritesheets/YellowKey.json");
-        this.load.spritesheet("greenKey", "hw5_assets/spritesheets/GreenKey.json");
-        this.load.spritesheet("blueKey", "hw5_assets/spritesheets/BlueKey.json");
         this.load.spritesheet("purpleKey", "hw5_assets/spritesheets/PurpleKey.json");
-        this.load.audio("jump", "hw5_assets/sounds/jump.wav");
         this.load.audio("level_music", "hw5_assets/music/level5_music.mp3");
+        this.load.audio("jump", "hw5_assets/sounds/jump.wav");
+        this.load.audio("collection", "hw5_assets/sounds/collection.mp3");
+        this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
     }
 
     startScene(): void {
@@ -39,7 +37,6 @@ export default class Level5 extends GameLevel {
 
     unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song
-        this.load.keepAudio("collection");
         this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
       }
     

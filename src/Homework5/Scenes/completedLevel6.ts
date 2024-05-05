@@ -39,8 +39,7 @@ export default class CompletedLevel6 extends MenuScene {
     backButton.onClick = () => {
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let selectTimer = new Timer(500, () => {
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_complete", loop: true, holdReference: true});
-        this.sceneManager.changeToScene(LevelSelect);
+        this.sceneManager.changeToScene(LevelSelect, {}, {progress: 6});
       });
       selectTimer.start();
   };

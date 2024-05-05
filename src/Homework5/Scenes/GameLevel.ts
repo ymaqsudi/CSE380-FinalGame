@@ -173,7 +173,7 @@ export default class GameLevel extends Scene {
                                     // complete red level
                                     this.viewport.follow(null);
                                     Input.enableInput();
-                                    this.sceneManager.changeToScene(CompletedLevel1);
+                                    this.sceneManager.changeToScene(CompletedLevel1, {}, {progress: this.progress});
                                     break;
                                 }
                             case 2:
@@ -181,7 +181,7 @@ export default class GameLevel extends Scene {
                                     // complete yellow level
                                     this.viewport.follow(null);
                                     Input.enableInput();
-                                    this.sceneManager.changeToScene(CompletedLevel2);
+                                    this.sceneManager.changeToScene(CompletedLevel2, {}, {progress: this.progress});
                                     break;
                                 }
                             case 3:
@@ -189,7 +189,7 @@ export default class GameLevel extends Scene {
                                     // complete green level
                                     this.viewport.follow(null);
                                     Input.enableInput();
-                                    this.sceneManager.changeToScene(CompletedLevel3);
+                                    this.sceneManager.changeToScene(CompletedLevel3, {}, {progress: this.progress});
                                     break;
                                 }
                             case 4:
@@ -197,7 +197,7 @@ export default class GameLevel extends Scene {
                                     // complete blue level
                                     this.viewport.follow(null);
                                     Input.enableInput();
-                                    this.sceneManager.changeToScene(CompletedLevel4);
+                                    this.sceneManager.changeToScene(CompletedLevel4, {}, {progress: this.progress});
                                     break;
                                 }
                             case 5:
@@ -205,7 +205,7 @@ export default class GameLevel extends Scene {
                                     // complete purple level
                                     this.viewport.follow(null);
                                     Input.enableInput();
-                                    this.sceneManager.changeToScene(CompletedLevel5);
+                                    this.sceneManager.changeToScene(CompletedLevel5, {}, {progress: this.progress});
                                     break;
                                 }
                             case 6:
@@ -213,7 +213,7 @@ export default class GameLevel extends Scene {
                                     // complete last level
                                     this.viewport.follow(null);
                                     Input.enableInput();
-                                    this.sceneManager.changeToScene(CompletedLevel6);
+                                    this.sceneManager.changeToScene(CompletedLevel6, {}, {progress: this.progress});
                                     break;
                                 }
                         }
@@ -325,7 +325,8 @@ export default class GameLevel extends Scene {
             this.isPausing = false;
             this.levelTransitionScreen.tweens.play("fadeIn");
             this.viewport.follow(null);
-            this.sceneManager.changeToScene(MainMenu);
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
+            this.sceneManager.changeToScene(MainMenu, {}, {progress: this.progress});
         };
 
         this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(300, 200), size: new Vec2(600, 400)});

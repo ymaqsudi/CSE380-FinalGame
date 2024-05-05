@@ -110,7 +110,7 @@ export default class MainMenu extends MenuScene {
       //this.sceneManager.changeToScene(LevelSelect);
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let selectTimer = new Timer(500, () => {
-        this.sceneManager.changeToScene(LevelSelect);
+        this.sceneManager.changeToScene(LevelSelect, {}, {progress: this.progress});
       });
       selectTimer.start();
     };
@@ -119,7 +119,7 @@ export default class MainMenu extends MenuScene {
       //this.sceneManager.changeToScene(AboutScene);
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let aboutTimer = new Timer(500, () => {
-        this.sceneManager.changeToScene(AboutScene);
+        this.sceneManager.changeToScene(AboutScene, {}, {progress: this.progress});
       });
       aboutTimer.start();
     };
@@ -128,7 +128,7 @@ export default class MainMenu extends MenuScene {
       //this.sceneManager.changeToScene(ControlsScene);
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let controlsTimer = new Timer(500, () => {
-        this.sceneManager.changeToScene(ControlsScene);
+        this.sceneManager.changeToScene(ControlsScene, {}, {progress: this.progress});
       });
       controlsTimer.start();
     };

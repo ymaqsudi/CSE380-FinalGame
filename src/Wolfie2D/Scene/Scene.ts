@@ -34,6 +34,9 @@ import ParticleSystemManager from "../Rendering/Animations/ParticleSystemManager
  * and have lifecycle methods exposed for these functions.
  */
 export default class Scene implements Updateable {
+    // Game Progress
+    progress: number;
+
     /** The size of the game world. */
     protected worldSize: Vec2;
 
@@ -102,6 +105,7 @@ export default class Scene implements Updateable {
     constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>){
         this.sceneOptions = SceneOptions.parse(options === undefined ? {} : options);
 
+        this.progress = options.progress;
         this.worldSize = new Vec2(500, 500);
         this.viewport = viewport;
         this.viewport.setBounds(0, 0, 2560, 1280);
