@@ -7,12 +7,11 @@ export default class Level3 extends GameLevel {
     loadScene(): void {
         // Load resources
         this.load.tilemap("level3", "hw5_assets/tilemaps/level3.json");
-        this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl3.json");
+        this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl" + (this.progress === 6 ? 6 : this.progress + 1) + ".json");
         this.load.spritesheet("greenKey", "hw5_assets/spritesheets/GreenKey.json");
         this.load.audio("level_music", "hw5_assets/music/level3_music.mp3");
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
         this.load.audio("collection", "hw5_assets/sounds/collection.mp3");
-        this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
     }
 
     startScene(): void {

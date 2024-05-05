@@ -14,7 +14,6 @@ export default class Level6 extends GameLevel {
         this.load.audio("level_music", "hw5_assets/music/level6_music.mp3");
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
         this.load.audio("collection", "hw5_assets/sounds/collection.mp3");
-        this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
     }        
 
     startScene(): void {

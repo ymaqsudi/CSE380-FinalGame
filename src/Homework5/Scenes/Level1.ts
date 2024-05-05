@@ -5,13 +5,13 @@ import GameLevel from "./GameLevel";
 export default class Level1 extends GameLevel {
     
     loadScene(): void {
+        console.log(this.progress);
         // Load resources
+        this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl" + (this.progress === 6 ? 6 : this.progress + 1) + ".json");
         this.load.tilemap("level1", "hw5_assets/tilemaps/level1.json");
-        this.load.spritesheet("player", "hw5_assets/spritesheets/main_character_lvl1.json");
         this.load.spritesheet("redKey", "hw5_assets/spritesheets/RedKey.json");
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
         this.load.audio("collection", "hw5_assets/sounds/collection.mp3");
-        this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
         this.load.audio("level_music", "hw5_assets/music/level1_music.mp3");
     }
 
