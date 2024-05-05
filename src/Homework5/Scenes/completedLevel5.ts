@@ -78,7 +78,7 @@ export default class CompletedLevel5 extends MenuScene {
         position: new Vec2(size.x, size.y + 50),
         text: "COLOR",
       });
-      text3.textColor = Color.RED;
+      text3.textColor = new Color(255, 0, 255);;
       text3.font = "PixelSimple";
       text3.fontSize = 22;
       text3.setHAlign("center");
