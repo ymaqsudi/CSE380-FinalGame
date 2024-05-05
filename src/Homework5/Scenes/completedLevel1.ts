@@ -38,8 +38,8 @@ export default class CompletedLevel1 extends MenuScene {
 
     backButton.onClick = () => {
       this.MenuTransitionScreen.tweens.play("fadeIn");
-      let selectTimer = new Timer(500, () => {
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
+      let selectTimer = new Timer(500, () => { 
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: this.progress === 6 ? "level_complete" : "menu", loop: true, holdReference: true});
         this.sceneManager.changeToScene(LevelSelect, {}, {progress: this.progress > 1 ? this.progress : 1});
       });
       selectTimer.start();
@@ -89,5 +89,10 @@ export default class CompletedLevel1 extends MenuScene {
 
   updateScene(deltaT: number): void {
     super.updateScene(deltaT);
+  }
+  
+  unloadScene(): void {
+    super.unloadScene();
+    this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_complete"});
   }
 }
