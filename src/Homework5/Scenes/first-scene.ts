@@ -64,11 +64,7 @@ export default class firstScene extends MenuScene {
 
 
     // Scene has started, so start playing music
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {
-      key: "menu",
-      loop: true,
-      holdReference: true,
-    });
+    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
   }
 
   updateScene(deltaT: number): void {
