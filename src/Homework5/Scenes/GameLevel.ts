@@ -39,7 +39,6 @@ export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
     protected playerSpawn: Vec2;
     protected player: AnimatedSprite;
-    protected respawnTimer: Timer;
 
     // Every level will have a key to move onto the next
     protected key: Vec2;
@@ -97,15 +96,6 @@ export default class GameLevel extends Scene {
 
         this.isPausing = false;
         // Initialize the timers
-        this.respawnTimer = new Timer(1000, () => {
-            if(GameLevel.livesCount === 0){
-                this.sceneManager.changeToScene(MainMenu);
-            } else {
-                this.respawnPlayer();
-                this.player.enablePhysics();
-                this.player.unfreeze();
-            }
-        });
         this.levelTransitionTimer = new Timer(500);
         this.levelEndTimer = new Timer(500, () => {
             // After the level end timer ends, fade to black and then go to the next scene
@@ -228,12 +218,6 @@ export default class GameLevel extends Scene {
                                 }
                         }
                         
-                    }
-                    break;
-
-                case HW5_Events.PLAYER_KILLED:
-                    {
-                        this.respawnPlayer();
                     }
                     break;
             }
@@ -398,16 +382,6 @@ export default class GameLevel extends Scene {
         this.viewport.follow(this.player);
     }
 
-    /**
-     * Initializes the level end area
-     */
-    protected addLevelEnd(startingTile: Vec2, size: Vec2): void {
-        this.levelEndArea = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: startingTile.scale(32), size: size.scale(32)});
-        this.levelEndArea.addPhysics(undefined, undefined, false, true);
-        this.levelEndArea.setTrigger("player", HW5_Events.PLAYER_ENTERED_LEVEL_END, null);
-        this.levelEndArea.color = new Color(0, 0, 0, 0);
-    }
-
     protected addKey(spriteKey: string, tilePos: Vec2): void {
         let key = this.add.animatedSprite(spriteKey, "primary");
         key.position.set(tilePos.x*32, tilePos.y*32);
@@ -430,30 +404,5 @@ export default class GameLevel extends Scene {
             this.player.freeze();
             this.emitter.fireEvent(HW5_Events.PLAYER_ENTERED_LEVEL_END);
         }
-    }
-
-    /**
-     * Increments the amount of life the player has
-     * @param amt The amount to add to the player life
-     */
-    protected incPlayerLife(amt: number): void {
-        GameLevel.livesCount += amt;
-        this.livesCountLabel.text = "Lives: " + GameLevel.livesCount;
-        if (GameLevel.livesCount == 0){
-            Input.disableInput();
-            this.player.disablePhysics();
-            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "player_death", loop: false, holdReference: false});
-            this.player.tweens.play("death");
-        }
-    }
-
-    /**
-     * Returns the player to spawn
-     */
-    protected respawnPlayer(): void {
-        GameLevel.livesCount = 3;
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
-        this.sceneManager.changeToScene(MainMenu, {});
-        Input.enableInput();
     }
 }

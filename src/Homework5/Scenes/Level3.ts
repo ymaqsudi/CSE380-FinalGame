@@ -12,7 +12,7 @@ export default class Level3 extends GameLevel {
         this.load.spritesheet("yellowKey", "hw5_assets/spritesheets/YellowKey.json");
         this.load.spritesheet("greenKey", "hw5_assets/spritesheets/GreenKey.json");
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
-        this.load.audio("level_music", "hw5_assets/music/menu.mp3");
+        this.load.audio("level_music", "hw5_assets/music/level3_music.mp3");
     }
 
     startScene(): void {
@@ -37,6 +37,7 @@ export default class Level3 extends GameLevel {
 
     unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song
+        this.load.keepAudio("collection");
         this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_music" });
       }
     

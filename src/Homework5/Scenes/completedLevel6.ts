@@ -14,6 +14,7 @@ export default class CompletedLevel6 extends MenuScene {
 
   startScene(): void {
     super.startScene();
+    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_complete", loop: true, holdReference: true});
 
     // Center the viewport
     let size = new Vec2(600, 400);
@@ -38,6 +39,7 @@ export default class CompletedLevel6 extends MenuScene {
     backButton.onClick = () => {
       this.MenuTransitionScreen.tweens.play("fadeIn");
       let selectTimer = new Timer(500, () => {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_complete", loop: true, holdReference: true});
         this.sceneManager.changeToScene(LevelSelect);
       });
       selectTimer.start();
@@ -114,12 +116,13 @@ export default class CompletedLevel6 extends MenuScene {
       text6.setHAlign("center");
       text6.setVAlign("center");
 
-
-    // Scene has started, so start playing music
-    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true,});
   }
 
   updateScene(deltaT: number): void {
     super.updateScene(deltaT);
+  }
+
+  unloadScene(): void {
+    this.load.keepAudio("level_complete");
   }
 }

@@ -84,5 +84,6 @@ export default class firstScene extends MenuScene {
     // The scene is being destroyed, so we can stop playing the song
     // this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "menu" });
     this.load.keepImage("introBackground");
+    this.load.keepAudio("menu");
   }
 }

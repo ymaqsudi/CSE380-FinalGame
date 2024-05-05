@@ -7,15 +7,20 @@ import { HW5_Events } from "../hw5_enums";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class MenuScene extends Scene {
     MenuTransitionScreen: Rect;
     size: Vec2;
+
+    loadScene(): void {
+        this.load.audio("level_complete", "hw5_assets/music/victory.mp3");
+    }
   
     startScene(): void {
       this.addLayer("Main", 1);
       this.addLayer("background", 3);
-  
+
       // Center the viewport
       let size = this.viewport.getHalfSize();
       this.viewport.setFocus(size);
@@ -77,6 +82,10 @@ export default class MenuScene extends Scene {
         if(this.receiver.hasNextEvent() && this.receiver.getNextEvent().type === HW5_Events.TOMAIN){
             this.sceneManager.changeToScene(MainMenu);
         }
+    }
+
+    unloadScene(): void {
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, { key: "level_complete" });
     }
   }
   
