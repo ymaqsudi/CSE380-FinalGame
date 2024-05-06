@@ -1,0 +1,15 @@
+{
+    "name": "cage",
+    "spriteSheetImage": "bluecage.png",
+    "spriteWidth": 64,
+    "spriteHeight": 64,
+    "columns": 4,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 16}]
+        }
+    ]
+}
