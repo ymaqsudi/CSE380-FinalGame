@@ -1,0 +1,15 @@
+{
+    "name": "unlock-key",
+    "spriteSheetImage": "unlock-key.png",
+    "spriteWidth": 64,
+    "spriteHeight": 64,
+    "columns": 1,
+    "rows": 1,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 16} ]
+        }
+    ]
+}

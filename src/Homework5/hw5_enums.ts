@@ -5,6 +5,7 @@ export enum HW5_Events {
     PLAYER_HIT_KEY = "PlayerHitKey",
     BALLOON_POPPED = "BalloonPopped",
     PLAYER_ENTERED_LEVEL_END = "PlayerEnteredLevelEnd",
+    PLAYER_HIT_SPECIAL_ITEM = "PlayerHitSpecialItem",
     LEVEL_START = "LevelStart",
     LEVEL_END = "LevelEnd",
     PLAYER_KILLED = "PlayerKilled",
